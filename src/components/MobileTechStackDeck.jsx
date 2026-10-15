@@ -28,19 +28,12 @@ export default function MobileTechStackDeck() {
       <div className="flex flex-col gap-6">
         {categories.map((category, catIdx) => {
           const CatIcon = categoryIconMap[category.id] || Layers;
-          const stepNumber = String(catIdx + 1).padStart(2, '0');
-          const totalNumber = String(categories.length).padStart(2, '0');
 
           return (
             <div
               key={category.id}
               className="relative w-full rounded-3xl bg-[#0D101A] border border-white/20 p-4 sm:p-5 shadow-[0_12px_36px_rgba(0,0,0,0.6)] backdrop-blur-2xl space-y-3.5"
             >
-              {/* Apple Liquid Glass Specular Glare along upper rim */}
-              <div className="apple-specular-glare" />
-              <div className="!absolute inset-0 pointer-events-none rounded-3xl apple-glass-edge" />
-              <div className="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none rounded-t-3xl" />
-
               <div>
                 {/* Category Header */}
                 <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-3 mb-3 relative z-10">
@@ -59,9 +52,6 @@ export default function MobileTechStackDeck() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-slate-400">
-                      {stepNumber} / {totalNumber}
-                    </span>
                     <span className="text-[10px] font-mono font-bold text-white px-2 py-0.5 rounded bg-white/10 border border-white/20">
                       {category.id.toUpperCase()}
                     </span>

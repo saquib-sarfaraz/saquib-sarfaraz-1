@@ -57,21 +57,14 @@ export default function Projects() {
             topOffset={76}
             cardSpacing={32}
             cardHeight={500}
-            renderCard={(project, index, { stepNumber, totalNumber }) => {
+            renderCard={(project) => {
               return (
                 <div
                   onClick={() => setActiveModalProject(project)}
                   className="relative w-full h-full flex flex-col justify-between rounded-3xl bg-[#0D101A] border border-white/20 p-5 shadow-[0_-20px_50px_rgba(0,0,0,0.95),0_15px_35px_rgba(0,0,0,0.85)] backdrop-blur-2xl overflow-hidden cursor-pointer active:scale-[0.99] transition-all duration-300"
                 >
-                  {/* Apple Liquid Glass Specular Glare along upper rim */}
-                  <div className="apple-specular-glare" />
-                  <div className="apple-glass-edge absolute inset-0 pointer-events-none rounded-3xl" />
-
-                  {/* Ambient Light Wash from top */}
-                  <div className="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none" />
-
                   <div>
-                    {/* Top Bar: Eyebrow, Step Counter, Status Pill */}
+                    {/* Top Bar: Eyebrow, Status Pill */}
                     <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-3 mb-3 relative z-10">
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-[#171A25] border border-white/15 text-slate-200">
@@ -80,9 +73,6 @@ export default function Projects() {
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono text-slate-400">
-                          {stepNumber} / {totalNumber}
-                        </span>
                         {(project.status || '').toLowerCase().includes('live') ? (
                           <span className="text-[10px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-950/40 border border-emerald-500/30 flex items-center gap-1 shadow-[0_0_8px_rgba(16,185,129,0.15)]">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -102,6 +92,8 @@ export default function Projects() {
                         <img
                           src={project.image}
                           alt={project.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0D101A] via-transparent to-transparent opacity-60" />

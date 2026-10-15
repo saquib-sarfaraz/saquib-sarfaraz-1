@@ -473,19 +473,6 @@ export default function EngineeringJourney() {
                             : 'opacity-75 hover:opacity-100 hover:scale-[1.02] border-white/15 hover:border-white/30 shadow-[0_15px_35px_rgba(0,0,0,0.7)]'
                         }`}
                       >
-                        {/* Apple Liquid Glass Specular Glare along top/curvature */}
-                        <div className="apple-specular-glare" />
-
-                        {/* Prismatic edge highlight */}
-                        <div className="apple-glass-edge absolute inset-0 pointer-events-none rounded-2xl" />
-
-                        {/* Ambient Optical Light Injection from Central Beam */}
-                        <div
-                          className={`absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/[0.08] to-transparent pointer-events-none transition-opacity duration-300 ${
-                            isActive ? 'opacity-100' : 'opacity-40'
-                          }`}
-                        />
-
                         {/* Card Content Header: Phase Eyebrow & Frosted Date Pill */}
                         <div className="flex items-center justify-between gap-2 mb-2.5 relative z-10">
                           <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#C6CBD6] flex items-center gap-1.5 truncate">
@@ -651,19 +638,6 @@ export default function EngineeringJourney() {
                             : 'opacity-75 hover:opacity-100 hover:scale-[1.02] border-white/15 hover:border-white/30 shadow-[0_15px_35px_rgba(0,0,0,0.7)]'
                         }`}
                       >
-                        {/* Apple Liquid Glass Specular Glare along top/curvature */}
-                        <div className="apple-specular-glare" />
-
-                        {/* Prismatic edge highlight */}
-                        <div className="apple-glass-edge absolute inset-0 pointer-events-none rounded-2xl" />
-
-                        {/* Ambient Optical Light Injection from Central Beam */}
-                        <div
-                          className={`absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none transition-opacity duration-300 ${
-                            isActive ? 'opacity-100' : 'opacity-40'
-                          }`}
-                        />
-
                         {/* Card Content Header: Phase Eyebrow & Frosted Date Pill */}
                         <div className="flex items-center justify-between gap-2 mb-2.5 relative z-10">
                           <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#C6CBD6] flex items-center gap-1.5 truncate">
@@ -803,9 +777,6 @@ export default function EngineeringJourney() {
                   }}
                   className="p-5 mt-2 rounded-2xl apple-glass-pill border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col md:flex-row items-start justify-between gap-5 relative overflow-hidden"
                 >
-                  <div className="apple-specular-glare" />
-                  <div className="apple-glass-edge absolute inset-0 pointer-events-none rounded-2xl" />
-
                   <div className="space-y-3 max-w-4xl relative z-10 w-full">
                     <div className="text-xs font-mono font-bold uppercase text-white flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -878,22 +849,15 @@ export default function EngineeringJourney() {
             topOffset={76}
             cardSpacing={32}
             cardHeight={500}
-            renderCard={(item, index, { stepNumber, totalNumber, isLast }) => {
+            renderCard={(item, index, { isLast }) => {
               const isCurrent = isLast;
 
               return (
                 <div
                   className="relative w-full h-full flex flex-col justify-between rounded-3xl bg-[#0D101A] border border-white/20 p-5 sm:p-6 shadow-[0_-20px_50px_rgba(0,0,0,0.95),0_15px_35px_rgba(0,0,0,0.85)] backdrop-blur-2xl overflow-hidden transition-all duration-300"
                 >
-                  {/* Apple Liquid Glass Specular Glare along upper rim */}
-                  <div className="apple-specular-glare" />
-                  <div className="apple-glass-edge absolute inset-0 pointer-events-none rounded-3xl" />
-
-                  {/* Ambient Light Wash from top */}
-                  <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none" />
-
                   <div className="space-y-3 relative z-10">
-                    {/* Top Bar: Eyebrow, Step Counter, Frosted Date Pill */}
+                    {/* Top Bar: Eyebrow, Frosted Date Pill */}
                     <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2.5">
                       <div className="flex items-center gap-1.5">
                         <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#C6CBD6] flex items-center gap-1.5">
@@ -903,9 +867,6 @@ export default function EngineeringJourney() {
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono text-slate-400">
-                          {stepNumber} / {totalNumber}
-                        </span>
                         <span className={`text-[10px] font-mono font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                           isCurrent
                             ? 'bg-white text-black border-white shadow-sm'

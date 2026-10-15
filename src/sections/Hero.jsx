@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { ArrowDown, FileText, FolderGit2 } from 'lucide-react';
-import heroVideo from '../assets/hero video.mp4';
 import { profileData } from '../content/profile';
 import HeroWaterRipple from '../components/HeroWaterRipple';
 
@@ -49,21 +48,36 @@ export default function Hero() {
     [1, 0]
   );
 
-  // Autoplay guarantee & reduced motion handling
+  // Viewport-aware video autoplay & reduced motion handling
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    const stage = stageRef.current;
+    if (!video || !stage) return;
 
     if (prefersReducedMotion) {
       video.pause();
-    } else {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.warn('Hero video autoplay prevented or interrupted:', error);
-        });
-      }
+      return;
     }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {});
+          }
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(stage);
+
+    return () => {
+      observer.disconnect();
+    };
   }, [prefersReducedMotion]);
 
   const handleSmoothScroll = (e, targetId) => {
@@ -101,11 +115,10 @@ export default function Hero() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             poster="/hero-poster.jpg"
             className="w-full h-full object-cover object-center sm:object-[center_35%]"
           >
-            <source src={heroVideo} type="video/mp4" />
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
         </motion.div>

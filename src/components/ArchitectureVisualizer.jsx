@@ -50,17 +50,12 @@ export default function ArchitectureVisualizer() {
           topOffset={76}
           cardSpacing={20}
           cardHeight="auto"
-          renderCard={(node, idx, { stepNumber, totalNumber }) => {
+          renderCard={(node, idx) => {
             const nextNode = idx < architectureNodes.length - 1 ? architectureNodes[idx + 1] : null;
 
             return (
               <div className="relative w-full rounded-3xl bg-[#0D101A] border border-white/20 p-4 sm:p-5 shadow-[0_-16px_40px_rgba(0,0,0,0.92),0_12px_28px_rgba(0,0,0,0.85)] backdrop-blur-2xl overflow-hidden space-y-3.5">
-                {/* Apple Liquid Glass Specular Glare along upper rim */}
-                <div className="apple-specular-glare" />
-                <div className="apple-glass-edge absolute inset-0 pointer-events-none rounded-3xl" />
-                <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none" />
-
-                {/* Top Bar: Icon, Step, Status */}
+                {/* Top Bar: Icon, Stage Type, Status */}
                 <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2.5 relative z-10">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-xl bg-[#171A25] border border-white/15 flex items-center justify-center shrink-0 shadow-sm">
@@ -71,7 +66,6 @@ export default function ArchitectureVisualizer() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-slate-400">{stepNumber} / {totalNumber}</span>
                     <span className="text-[10px] font-mono font-bold text-white px-2 py-0.5 rounded bg-white/10 border border-white/20">
                       {node.status}
                     </span>
@@ -93,7 +87,7 @@ export default function ArchitectureVisualizer() {
 
                 {/* Pipeline Stream Footer */}
                 <div className="pt-2.5 border-t border-white/10 flex items-center justify-between font-mono text-[11px] relative z-10 text-slate-400">
-                  <span>Component #{node.id}</span>
+                  <span>Architecture Node</span>
                   {nextNode ? (
                     <span className="flex items-center gap-1.5 text-white font-semibold">
                       <span>Flow to {nextNode.title.split(' ')[0]}</span>
@@ -137,11 +131,6 @@ export default function ArchitectureVisualizer() {
                   }`}>
                     <TechBrandIcon name={nodeTechMap[node.id]} className="w-5 h-5" />
                   </div>
-                  <span className={`text-[10px] font-mono font-semibold transition-colors ${
-                    isSelected ? 'text-[#60A5FA]' : 'text-slate-400'
-                  }`}>
-                    0{idx + 1}
-                  </span>
                 </div>
 
                 <div>
@@ -185,7 +174,7 @@ export default function ArchitectureVisualizer() {
               Tech Protocol: <span className="text-[#60A5FA] font-semibold">{activeNode.tech}</span>
             </div>
             <div className="text-slate-400">
-              Component ID: #{activeNode.id}
+              Architecture Layer: <span className="text-white font-semibold">{activeNode.type}</span>
             </div>
           </div>
         </div>

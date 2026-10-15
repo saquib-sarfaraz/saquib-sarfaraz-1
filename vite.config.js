@@ -63,4 +63,16 @@ function apiDevPlugin() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), apiDevPlugin()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three'],
+          motion: ['framer-motion'],
+          lucide: ['lucide-react'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
 });

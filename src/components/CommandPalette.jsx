@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, FolderGit2, Briefcase, User, Mail, FileText, ExternalLink, Gamepad2, X, Check } from 'lucide-react';
+import { Search, FolderGit2, Briefcase, User, Mail, FileText, ExternalLink, Gamepad2, X, Check, RotateCcw } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { profileData } from '../content/profile';
 
-export default function CommandPalette({ isOpen, onClose, onOpenAISearch }) {
+export default function CommandPalette({ isOpen, onClose, onOpenAISearch, onReplayBoot }) {
   const [query, setQuery] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -47,6 +47,20 @@ export default function CommandPalette({ isOpen, onClose, onOpenAISearch }) {
   };
 
   const actions = [
+    {
+      id: 'replay-boot',
+      label: 'Replay SAQUIB OS Boot Animation',
+      category: 'System',
+      icon: RotateCcw,
+      perform: () => {
+        onClose();
+        if (onReplayBoot) {
+          onReplayBoot();
+        } else if (typeof window !== 'undefined' && window.__replayBoot) {
+          window.__replayBoot();
+        }
+      }
+    },
     {
       id: 'ai-search',
       label: 'Launch AI Search',

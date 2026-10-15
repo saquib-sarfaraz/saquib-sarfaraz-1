@@ -55,7 +55,6 @@ export default function HeroScene3D() {
     };
 
     const handleContextRestored = () => {
-      console.log('WebGL context restored on HeroScene3D');
       handleResize();
     };
 
