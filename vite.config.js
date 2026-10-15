@@ -64,15 +64,6 @@ function apiDevPlugin() {
 export default defineConfig({
   plugins: [react(), apiDevPlugin()],
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          three: ['three'],
-          motion: ['framer-motion'],
-          lucide: ['lucide-react'],
-        },
-      },
-    },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1600,
   },
 });
