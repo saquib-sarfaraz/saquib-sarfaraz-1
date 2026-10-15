@@ -2,46 +2,46 @@ import { motion } from 'framer-motion';
 
 export default function AuroraBackground() {
   return (
-    <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden bg-gradient-to-b from-[#0B1020] via-[#10182C] to-[#0A0E1A]">
-      {/* Primary Sky Cyan Radial Volumetric Glow */}
+    <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden bg-gradient-to-b from-[#080A12] via-[#0D101A] to-[#05070D]">
+      {/* Primary Subtle Specular Ambience */}
       <motion.div
         animate={{
           opacity: [0.35, 0.55, 0.35],
-          scale: [1, 1.15, 1],
+          scale: [1, 1.1, 1],
         }}
         transition={{
-          duration: 9,
+          duration: 10,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        className="absolute -top-[15%] left-[10%] w-[70vw] h-[70vw] rounded-full bg-radial from-sky-400/30 via-cyan-500/15 to-transparent blur-[130px]"
+        className="absolute -top-[15%] left-[10%] w-[70vw] h-[70vw] rounded-full bg-radial from-white/[0.035] via-[#222633]/20 to-transparent blur-[140px]"
       />
 
-      {/* Secondary Violet / Purple Volumetric Bloom */}
+      {/* Secondary Deep Charcoal Bloom */}
       <motion.div
         animate={{
           opacity: [0.3, 0.5, 0.3],
-          scale: [1, 1.2, 1],
+          scale: [1, 1.15, 1],
         }}
         transition={{
-          duration: 13,
+          duration: 14,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        className="absolute top-[30%] -right-[15%] w-[60vw] h-[60vw] rounded-full bg-radial from-purple-600/30 via-indigo-500/15 to-transparent blur-[120px]"
+        className="absolute top-[30%] -right-[15%] w-[60vw] h-[60vw] rounded-full bg-radial from-[#171A25]/50 via-[#10131D]/30 to-transparent blur-[130px]"
       />
 
-      {/* Bottom Teal Ambient Glow */}
+      {/* Bottom Subtle Depth Ambience */}
       <motion.div
         animate={{
           opacity: [0.25, 0.45, 0.25],
         }}
         transition={{
-          duration: 11,
+          duration: 12,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        className="absolute -bottom-[10%] left-[15%] w-[65vw] h-[65vw] rounded-full bg-radial from-teal-400/25 via-sky-600/15 to-transparent blur-[140px]"
+        className="absolute -bottom-[10%] left-[15%] w-[65vw] h-[65vw] rounded-full bg-radial from-white/[0.025] via-[#171A25]/40 to-transparent blur-[150px]"
       />
 
       {/* Linear Grid Pattern Overlay */}

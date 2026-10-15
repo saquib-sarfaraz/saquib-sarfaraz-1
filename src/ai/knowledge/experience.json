@@ -1,9 +1,32 @@
 [
   {
+    "id": "confidential-gov-internship-2026",
+    "title": "Confidential Government",
+    "role": "Software Developer Intern",
+    "status": "Verified Internship",
+    "period": "August 2026 – September 2026",
+    "company": "Confidential Government",
+    "location": "Remote (Riyadh, Saudi Arabia)",
+    "companyLocation": "Riyadh, Saudi Arabia",
+    "workMode": "Remote",
+    "type": "Industry Internship",
+    "summary": "Worked on software development and web-based solutions, contributing to backend functionality, administrative interfaces, responsive user experiences, and production-focused implementations. Gained practical experience translating requirements into functional features while focusing on usability, maintainability, and reliable delivery.",
+    "highlights": [
+      "Contributed to software development and web-based solutions, implementing backend functionality and administrative interfaces.",
+      "Engineered responsive user experiences and production-focused implementations with reliable delivery.",
+      "Translated functional requirements into maintainable, well-structured software features with emphasis on usability.",
+      "Delivered remote software engineering solutions adhering to high standards of reliability and code quality."
+    ],
+    "techStack": ["Software Development", "Web Development", "Backend Development", "Admin Panels", "Responsive Design"],
+    "actions": [
+      { "type": "scroll", "target": "experience", "label": "View Experience Timeline" }
+    ]
+  },
+  {
     "id": "wonderkids-internship-2026",
     "title": "WonderKids Club",
     "role": "Full Stack Developer Intern",
-    "status": "CURRENT INTERNSHIP",
+    "status": "Verified Internship",
     "period": "June 2026 – August 2026",
     "company": "WonderKids Club (Vaultboard Consulting Pvt. Ltd.)",
     "location": "Remote",

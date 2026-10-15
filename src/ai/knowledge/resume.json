@@ -2,14 +2,17 @@
   "name": "Saquib Sarfaraz",
   "title": "Full Stack Developer",
   "education": "B.Tech in Computer Science Engineering at Jamia Hamdard, New Delhi (2023 - 2027)",
-  "currentRole": "Full Stack Web Developer Intern at WonderKids Club (June 2026 - August 2026)",
-  "previousRole": "Web Developer Intern at Pizeonfly Pvt Ltd (Sep 2024 - Oct 2024)",
+  "latestRole": "Software Developer Intern at Confidential Government (August 2026 - September 2026, Remote)",
+  "previousRoles": [
+    "Full Stack Web Developer Intern at WonderKids Club (June 2026 - August 2026)",
+    "Web Developer Intern at Pizeonfly Pvt Ltd (Sep 2024 - Oct 2024)"
+  ],
   "leadership": [
     "GeeksforGeeks Campus Mantri (Jamia Hamdard)",
     "Co-Chairperson, NSDC Student Chapter",
     "Joint Secretary, Ignite Society & GDSC"
   ],
-  "topSkills": ["React.js", "Node.js", "Express.js", "MongoDB Atlas", "Socket.io", "Tailwind CSS", "PHP", "Python", "Git"],
+  "topSkills": ["React.js", "TypeScript", "Node.js", "Express.js", "MongoDB Atlas", "Socket.io", "Tailwind CSS", "PHP", "Python", "Git"],
   "flagshipProject": "InCampus (Live University Social Network)",
   "resumeUrl": "/Saquib_Sarfaraz_FullStack_Resume.pdf",
   "actions": [

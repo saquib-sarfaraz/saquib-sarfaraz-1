@@ -131,7 +131,7 @@ export function retrieveKnowledge(query = '', history = []) {
     entityName = 'Value Proposition';
     const whyHireCard = {
       valueProposition: 'I build production-ready applications that solve real problems rather than just academic projects.',
-      provenImpact: 'Built InCampus (incampus.online) and AI Spend Audit (ai-audit-lilac.vercel.app), and currently shipping features as Full Stack Intern at WonderKids Club.',
+      provenImpact: 'Built InCampus (incampus.online) and AI Spend Audit (ai-audit-lilac.vercel.app), and completed software engineering internships at Confidential Government and WonderKids Club.',
       ownership: 'Full-stack ownership across React frontend, Node.js/Express backend, MongoDB aggregation, and Socket.io real-time infrastructure.',
       speedAndMindset: 'Fast learner, self-driven, focused on clean UI/UX and scalable code.'
     };
@@ -145,7 +145,7 @@ export function retrieveKnowledge(query = '', history = []) {
     const recruiterIntroCard = {
       name: 'Saquib Sarfaraz',
       title: 'Full Stack Developer & CSE Student at Jamia Hamdard',
-      internship: 'Full Stack Developer Intern at WonderKids Club (June 2026 - August 2026)',
+      internship: 'Software Developer Intern at Confidential Government (August 2026 - September 2026, Remote)',
       flagshipProjects: 'InCampus (incampus.online), AI Spend Audit (ai-audit-lilac.vercel.app)',
       coreStack: 'React.js, Node.js, Express.js, MongoDB Atlas, Socket.io, Tailwind CSS',
       elevatorPitch: 'Building production-ready SaaS web platforms with full product ownership from idea to live deployment.'
@@ -197,11 +197,11 @@ export function retrieveKnowledge(query = '', history = []) {
   }
 
   // 6. EXPERIENCE & INTERNSHIP MATCHING
-  if (checkRaw('internship', 'wonderkids', 'pizeonfly', 'experience', 'work history', 'company', 'job', 'role', 'current')) {
+  if (checkRaw('internship', 'confidential', 'government', 'wonderkids', 'pizeonfly', 'experience', 'work history', 'company', 'job', 'role', 'current')) {
     if (!matchedSources.has('Experience') && retrievedSections.length === 0) {
       confidenceScore = 0.94;
-      cardTitle = 'Experience > WonderKids & Pizeonfly';
-      entityName = 'WonderKids Club';
+      cardTitle = 'Experience > Confidential Gov & WonderKids';
+      entityName = 'Confidential Government';
       retrievedSections.push({ title: cardTitle, data: experienceData });
       matchedSources.add('Experience');
       suggestedActions.push({ type: 'scroll', target: 'experience', label: 'View Experience Section' });

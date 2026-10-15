@@ -111,7 +111,7 @@ export default function GameZone() {
           ref={titleRevealRef}
           className="font-display text-3xl md:text-4xl font-bold mb-3 text-center reveal"
         >
-          Game <span className="text-holoCyan">Zone</span>
+          Game <span className="bg-gradient-to-r from-white via-[#C6CBD6] to-[#747B8B] bg-clip-text text-transparent">Zone</span>
         </h2>
         <p
           ref={subtitleRevealRef}
@@ -125,9 +125,11 @@ export default function GameZone() {
             containerRevealRef.current = node
             inViewRef.current = node
           }}
-          className="glass-panel rounded-[32px] relative overflow-hidden border border-white/10 hover:shadow-neon transition-shadow reveal"
+          className="glass-panel apple-glass-edge rounded-[32px] relative overflow-hidden transition-all reveal"
         >
-          <div className="p-6 md:p-8 flex flex-col md:flex-row gap-4 md:items-center md:justify-between border-b border-white/5">
+          <div className="apple-specular-glare" />
+
+          <div className="p-6 md:p-8 flex flex-col md:flex-row gap-4 md:items-center md:justify-between border-b border-white/10 relative z-10">
             <div>
               <div className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-2">
                 Featured Playground
@@ -145,21 +147,21 @@ export default function GameZone() {
                 href={GAME_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="px-6 py-3 rounded-full bg-white text-void font-bold hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] transition-all text-center"
+                className="px-6 py-3 rounded-full apple-glass-btn !bg-white/95 !text-black hover:!bg-white font-bold transition-all text-center cursor-pointer shadow-md"
               >
                 Open Full Page
               </a>
               <button
                 type="button"
                 onClick={handleOpenFullscreen}
-                className="px-6 py-3 rounded-full border border-holoCyan/30 bg-holoCyan/5 text-holoCyan font-semibold hover:shadow-neon transition-all"
+                className="px-6 py-3 rounded-full apple-glass-btn text-[#F5F6FA] font-semibold transition-all cursor-pointer"
               >
                 Open Fullscreen
               </button>
               <button
                 type="button"
                 onClick={handleReload}
-                className="px-6 py-3 rounded-full border border-white/10 text-gray-200 hover:bg-white/5 transition-all"
+                className="px-6 py-3 rounded-full apple-glass-btn text-gray-200 transition-all cursor-pointer"
               >
                 Reload Game
               </button>

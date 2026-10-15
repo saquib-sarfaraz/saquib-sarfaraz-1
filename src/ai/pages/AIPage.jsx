@@ -175,31 +175,31 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
 
   return (
     <div
-      className="fixed inset-0 z-[120] bg-[#040814] text-white flex flex-col justify-between overflow-hidden text-left font-sans w-screen"
+      className="fixed inset-0 z-[120] bg-[#080A12] text-white flex flex-col justify-between overflow-hidden text-left font-sans w-screen"
       style={{ height: viewportHeight ? `${viewportHeight}px` : 'var(--vvh, 100dvh)' }}
     >
       {/* Volumetric Ambient Lighting */}
-      <div className="absolute top-1/6 left-1/4 w-[600px] h-[600px] rounded-full bg-sky-500/10 blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-purple-500/10 blur-[180px] pointer-events-none" />
+      <div className="absolute top-1/6 left-1/4 w-[600px] h-[600px] rounded-full bg-white/[0.03] blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-white/[0.02] blur-[180px] pointer-events-none" />
 
       {/* TOP GOOGLE AI MODE NAVBAR HEADER */}
-      <header className="relative z-10 p-4 sm:p-6 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-2xl flex items-center justify-between shrink-0">
+      <header className="relative z-10 p-4 sm:p-6 border-b border-[#414655] bg-[#10131D]/90 backdrop-blur-2xl flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
           <button
             onClick={onClose}
-            className="p-2 sm:px-3 sm:py-1.5 rounded-full bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-all text-xs font-mono flex items-center gap-1.5 cursor-pointer shadow-md"
+            className="p-2 sm:px-3 sm:py-1.5 rounded-full bg-[#171A25] border border-[#414655] hover:border-[#747B8B] text-[#C6CBD6] hover:text-white transition-all text-xs font-mono flex items-center gap-1.5 cursor-pointer shadow-md"
           >
-            <ArrowLeft className="w-4 h-4 text-sky-400" />
+            <ArrowLeft className="w-4 h-4 text-white" />
             <span className="hidden sm:inline">Return to Saquib OS</span>
           </button>
 
-          <div className="h-5 w-[1px] bg-slate-800 hidden sm:block" />
+          <div className="h-5 w-[1px] bg-[#414655] hidden sm:block" />
 
           <div className="flex items-center gap-2.5">
             <img
               src="/ai-search-logo.png"
               alt="Saquib OS AI Search"
-              className="w-7 h-7 rounded-lg object-cover shadow-md border border-sky-400/40"
+              className="w-7 h-7 rounded-lg object-cover shadow-md border border-[#414655]"
             />
             <div>
               <h1 className="font-extrabold text-sm sm:text-base text-white tracking-tight">
@@ -213,15 +213,15 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
           {messages.length > 0 && (
             <button
               onClick={handleClearHistory}
-              className="p-2 rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors"
+              className="p-2 rounded-full bg-[#171A25] border border-[#414655] text-[#949BAA] hover:text-white transition-colors"
               title="Clear Conversation"
             >
               <RefreshCw className="w-4 h-4" />
             </button>
           )}
 
-          <div className="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#F5F6FA] text-[10px] font-mono font-bold flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             <span>KNOWLEDGE BASE READY</span>
           </div>
         </div>
@@ -242,19 +242,19 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
             className="text-center py-12 space-y-6 max-w-xl mx-auto"
           >
             <div className="relative w-20 h-20 mx-auto">
-              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-sky-400 via-purple-500 to-emerald-400 opacity-80 blur-xl animate-pulse" />
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-white/30 via-[#C6CBD6]/20 to-[#747B8B]/20 opacity-80 blur-xl animate-pulse" />
               <img
                 src="/ai-search-logo.png"
                 alt="AI Search Logo"
-                className="relative w-20 h-20 rounded-3xl object-cover border border-sky-400/50 shadow-2xl shadow-sky-500/30 mx-auto"
+                className="relative w-20 h-20 rounded-3xl object-cover border border-[#414655] shadow-2xl shadow-white/5 mx-auto"
               />
             </div>
 
             <div className="space-y-2">
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                AI <span className="text-sky-400">Search</span>
+                AI <span className="bg-gradient-to-r from-white via-[#C6CBD6] to-[#747B8B] bg-clip-text text-transparent">Search</span>
               </h2>
-              <p className="text-slate-400 text-xs sm:text-sm font-mono leading-relaxed">
+              <p className="text-[#949BAA] text-xs sm:text-sm font-mono leading-relaxed">
                 Ask anything about my projects, experience, skills, achievements, and engineering journey.
               </p>
             </div>
@@ -281,7 +281,7 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
 
         {/* Follow-up Question Chips after AI Answers */}
         {messages.length > 0 && !isThinking && (
-          <div className="pt-4 border-t border-slate-800/60">
+          <div className="pt-4 border-t border-[#414655]">
             <AISuggestions
               suggestions={getLastFollowUps()}
               onSelectSuggestion={handleSuggestionSelect}
@@ -291,7 +291,7 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
       </main>
 
       {/* BOTTOM SEARCH INPUT FLOATING BAR */}
-      <footer className="relative z-10 p-4 sm:p-6 border-t border-slate-800/80 bg-slate-950/90 backdrop-blur-2xl">
+      <footer className="relative z-10 p-4 sm:p-6 border-t border-[#414655] bg-[#10131D]/90 backdrop-blur-2xl">
         <div className="max-w-4xl mx-auto space-y-2">
           <form
             onSubmit={(e) => {
@@ -300,7 +300,7 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
             }}
             className="relative flex items-center"
           >
-            <Search className="absolute left-4 w-5 h-5 text-slate-400" />
+            <Search className="absolute left-4 w-5 h-5 text-[#949BAA]" />
 
             <input
               ref={inputRef}
@@ -314,13 +314,13 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
               }}
               placeholder={ROTATING_PLACEHOLDERS[placeholderIndex]}
               disabled={isThinking}
-              className="w-full pl-12 pr-14 py-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-white placeholder-slate-500 font-mono text-sm focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-all shadow-xl"
+              className="w-full pl-12 pr-14 py-4 rounded-2xl bg-[#171A25] border border-[#414655] text-white placeholder-[#747B8B] font-mono text-sm focus:outline-none focus:border-[#747B8B] focus:ring-1 focus:ring-[#747B8B] transition-all shadow-xl"
             />
 
             <button
               type="submit"
               disabled={!inputQuery.trim() || isThinking}
-              className="absolute right-2.5 p-2.5 rounded-xl bg-sky-500 text-white font-bold disabled:opacity-40 disabled:bg-slate-800 hover:bg-sky-400 transition-all cursor-pointer shadow-md"
+              className="absolute right-2.5 p-2.5 rounded-xl bg-white text-black font-bold disabled:opacity-40 disabled:bg-[#222633] disabled:text-[#747B8B] hover:bg-[#C6CBD6] transition-all cursor-pointer shadow-md"
             >
               <Send className="w-4 h-4" />
             </button>

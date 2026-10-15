@@ -1,65 +1,83 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import BootNetworkGraph from './BootNetworkGraph';
 
 export default function Preloader({ onComplete }) {
   const [isPresent, setIsPresent] = useState(true);
-  const [stage, setStage] = useState(1);
-  const [visibleLogs, setVisibleLogs] = useState([]);
-  const [currentActiveIdx, setCurrentActiveIdx] = useState(-1);
-  const [isReadyHighlighted, setIsReadyHighlighted] = useState(false);
-
-  const statusLogs = [
-    '✓ Authenticating Session',
-    '✓ Restoring Workspace',
-    '✓ Loading Engineering Journey',
-    '✓ Opening Product Showcase',
-    '✓ Preparing Experience Timeline',
-    '✓ Activating Interactive Portfolio',
-    '✓ Workspace Ready'
-  ];
+  const [progress, setProgress] = useState(0.08);
+  const [statusMessage, setStatusMessage] = useState('BOOT_KERNEL');
+  const animFrameRef = useRef(null);
+  const startTimeRef = useRef(null);
 
   useEffect(() => {
-    // Stage 1: Pure black screen (0-200ms)
-    // Stage 2: Power LED pulse (200ms-600ms)
-    const t2 = setTimeout(() => setStage(2), 200);
+    // Check reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      setProgress(1.0);
+      const timer = setTimeout(() => {
+        setIsPresent(false);
+        if (onComplete) onComplete();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
 
-    // Stage 3: SAQUIB OS large title reveals (600ms)
-    const t3 = setTimeout(() => setStage(3), 600);
+    const totalDuration = 3200; // 3.2s total smooth sequence
 
-    // Stage 4: Subtitle "Initializing Workspace..." reveals (1100ms)
-    const t4 = setTimeout(() => setStage(4), 1100);
+    const tick = (now) => {
+      if (!startTimeRef.current) startTimeRef.current = now;
+      const elapsed = now - startTimeRef.current;
+      const t = Math.min(elapsed / totalDuration, 1.0);
 
-    // Stage 5: One status line at a time with 130ms delay (1500ms - 2500ms)
-    const t5 = setTimeout(() => {
-      setStage(5);
-      statusLogs.forEach((log, index) => {
+      // Smooth custom easing through the 25%-70% phase without artificial pauses
+      let currentProgress;
+      if (t < 0.15) {
+        // Initial boot: 0.08 to 0.22
+        currentProgress = 0.08 + (t / 0.15) * 0.14;
+      } else if (t < 0.78) {
+        // Centerpiece Network & Graph Expansion phase: 0.22 to 0.78 (smooth linear progression)
+        const subT = (t - 0.15) / (0.78 - 0.15);
+        currentProgress = 0.22 + subT * 0.58;
+      } else if (t < 0.92) {
+        // Network stabilization & telemetry lock: 0.80 to 0.98
+        const subT = (t - 0.78) / (0.92 - 0.78);
+        currentProgress = 0.80 + subT * 0.18;
+      } else {
+        // Complete: 1.0
+        currentProgress = 1.0;
+      }
+
+      setProgress(currentProgress);
+
+      // Dynamic telemetry status line
+      if (currentProgress < 0.25) {
+        setStatusMessage('INITIALIZING_CORE_SERVICES');
+      } else if (currentProgress < 0.42) {
+        setStatusMessage('MAPPING_NETWORK_TOPOLOGY');
+      } else if (currentProgress < 0.58) {
+        setStatusMessage('MOUNTING_LIQUID_GLASS_INTERFACE');
+      } else if (currentProgress < 0.72) {
+        setStatusMessage('ACCELERATING_RENDER_PIPELINE');
+      } else if (currentProgress < 0.95) {
+        setStatusMessage('SYSTEM_STABILIZED // ALL_NODES_ONLINE');
+      } else {
+        setStatusMessage('READY // ENTERING_WORKSPACE');
+      }
+
+      if (t < 1.0) {
+        animFrameRef.current = requestAnimationFrame(tick);
+      } else {
+        // Exit transition trigger
         setTimeout(() => {
-          setVisibleLogs((prev) => [...prev, log]);
-          setCurrentActiveIdx(index);
-          if (index === statusLogs.length - 1) {
-            setIsReadyHighlighted(true);
-          }
-        }, index * 140);
-      });
-    }, 1500);
+          setIsPresent(false);
+          if (onComplete) onComplete();
+        }, 350);
+      }
+    };
 
-    // Stage 6: "Welcome. Entering Workspace..." end message (2700ms)
-    const t6 = setTimeout(() => setStage(6), 2700);
-
-    // Stage 7: Smooth exit transition (3300ms)
-    const t7 = setTimeout(() => {
-      setStage(7);
-      setIsPresent(false);
-      if (onComplete) onComplete();
-    }, 3300);
+    animFrameRef.current = requestAnimationFrame(tick);
 
     return () => {
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
-      clearTimeout(t5);
-      clearTimeout(t6);
-      clearTimeout(t7);
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
   }, [onComplete]);
 
@@ -72,108 +90,75 @@ export default function Preloader({ onComplete }) {
             opacity: 0, 
             filter: 'blur(16px)',
             scale: 1.02,
-            transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } 
+            transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] } 
           }}
-          className="fixed inset-0 z-[100] bg-[#02040a] flex flex-col items-center justify-center px-6 select-none font-mono text-center overflow-hidden"
+          className="fixed inset-0 z-[100] bg-[#02040a] flex flex-col items-center justify-between py-8 px-6 select-none font-mono text-center overflow-hidden"
         >
-          {/* Volumetric Radial Glow */}
-          {stage >= 3 && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.4 }}
-              animate={{ opacity: [0.3, 0.75, 0.5], scale: [0.8, 1.6, 1.4] }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute w-[750px] h-[750px] rounded-full bg-sky-500/20 blur-[170px] pointer-events-none"
-            />
-          )}
+          {/* Volumetric Radial Glow concentrated behind the network graph */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-blue-600/[0.04] blur-[160px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-white/[0.02] blur-[100px] pointer-events-none" />
 
-          {/* Stage 2: Power LED Indicator */}
-          {stage >= 2 && stage < 3 && (
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.8] }}
-              transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
-              className="w-4 h-4 rounded-full bg-sky-400 shadow-[0_0_28px_rgba(56,189,248,1)] mb-6"
-            />
-          )}
-
-          {/* Stage 3 & 4: Large SAQUIB OS Title & Initializing Workspace Subtitle */}
-          {stage >= 3 && (
-            <div className="space-y-3 relative z-10">
-              <motion.h1
-                initial={{ opacity: 0, y: 20, filter: 'blur(12px)', letterSpacing: '0.25em' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)', letterSpacing: '0.18em' }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="text-5xl sm:text-7xl font-extrabold text-white font-mono drop-shadow-[0_0_40px_rgba(56,189,248,0.6)]"
-              >
-                SAQUIB OS
-              </motion.h1>
-
-              {stage >= 4 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8, filter: 'blur(6px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-xs sm:text-sm text-sky-400/90 tracking-[0.25em] uppercase font-bold"
-                >
-                  Initializing Workspace...
-                </motion.div>
-              )}
+          {/* TOP HUD: OS Telemetry Header */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full max-w-4xl flex items-center justify-between text-xs text-slate-400 relative z-10 border-b border-white/10 pb-3"
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.9)] animate-pulse" />
+              <span className="font-extrabold text-white tracking-widest text-[11px]">SAQUIB OS</span>
+              <span className="text-blue-400 font-mono text-[10px] font-bold">v3.0</span>
             </div>
-          )}
 
-          {/* Stage 5: Status Checkmark Lines (Revealing 1-by-1 with 70% opacity for previous lines) */}
-          {stage >= 5 && (
+            <div className="flex items-center gap-3 text-[10px] text-slate-400">
+              <span className="hidden sm:inline">ARCH: ARM64 // HOST: LOCAL</span>
+              <span className="text-blue-300 font-bold">
+                {Math.round(progress * 100)}%
+              </span>
+            </div>
+          </motion.div>
+
+          {/* CENTERPIECE: Graph & Network Constellation Animation */}
+          <div className="my-auto w-full max-w-xl flex flex-col items-center justify-center relative z-10">
+            {/* Minimal Title Header */}
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mt-8 w-full max-w-sm text-left space-y-2 bg-slate-900/80 p-6 rounded-2xl border border-white/10 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] relative z-10 font-mono"
-            >
-              {visibleLogs.map((log, index) => {
-                const isCurrent = index === currentActiveIdx;
-                const isLast = index === statusLogs.length - 1;
-
-                return (
-                  <motion.div
-                    key={log}
-                    initial={{ opacity: 0, x: -14, filter: 'blur(4px)' }}
-                    animate={{ 
-                      opacity: isCurrent ? 1 : 0.7, 
-                      x: 0, 
-                      filter: 'blur(0px)' 
-                    }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    className={`text-xs flex items-center justify-between tracking-wide transition-all ${
-                      isLast && isReadyHighlighted
-                        ? 'text-emerald-400 font-extrabold text-sm drop-shadow-[0_0_12px_rgba(34,197,94,0.8)]'
-                        : isCurrent
-                        ? 'text-emerald-300 font-bold'
-                        : 'text-slate-300 font-medium'
-                    }`}
-                  >
-                    <span>{log}</span>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          )}
-
-          {/* Stage 6: Ending Welcome Message */}
-          {stage >= 6 && (
-            <motion.div
-              initial={{ opacity: 0, y: 8, filter: 'blur(6px)' }}
+              initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.6 }}
-              className="mt-6 space-y-1 relative z-10"
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-1 mb-2 text-center"
             >
-              <div className="text-sm sm:text-base text-white font-mono font-bold tracking-widest uppercase">
-                Welcome.
-              </div>
-              <div className="text-xs text-sky-400 font-mono tracking-widest animate-pulse">
-                Entering Workspace...
-              </div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-[0.22em] text-white uppercase drop-shadow-[0_0_24px_rgba(255,255,255,0.25)]">
+                SAQUIB OS
+              </h1>
+              <p className="text-[10px] font-mono tracking-[0.25em] uppercase text-blue-300/80 font-medium">
+                Distributed Node Topology
+              </p>
             </motion.div>
-          )}
+
+            {/* Signature Graph & Network Canvas */}
+            <BootNetworkGraph progress={progress} />
+
+            {/* Precision Loading Telemetry Bar */}
+            <div className="w-full max-w-[280px] space-y-2 mt-2">
+              <div className="w-full h-[2px] bg-[#171A25] rounded-full overflow-hidden relative">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-300 shadow-[0_0_10px_rgba(59,130,246,0.9)] rounded-full"
+                  style={{ width: `${Math.min(progress * 100, 100)}%` }}
+                  transition={{ ease: 'linear', duration: 0.1 }}
+                />
+              </div>
+
+              <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                <span className="text-blue-300 font-semibold tracking-wider">
+                  {statusMessage}
+                </span>
+                <span className="text-slate-300 font-bold">
+                  {String(Math.round(progress * 100)).padStart(3, ' ')}%
+                </span>
+              </div>
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -30,7 +30,7 @@ export default function ProjectCard({
     setTilt({ rotateX: 0, rotateY: 0, scale: 1 });
   };
 
-  const cardClassName = `glass-panel rounded-3xl p-6 transition-all duration-300 group reveal hover-card ${delayClass}`.trim();
+  const cardClassName = `glass-card glass-card-hover apple-glass-edge rounded-3xl p-6 transition-all duration-300 group reveal hover-card relative overflow-hidden ${delayClass}`.trim();
 
   return (
     <motion.article
@@ -47,9 +47,11 @@ export default function ProjectCard({
       style={{ transformStyle: 'preserve-3d', perspective: 1000 }}
       className={cardClassName}
     >
+      <div className="apple-specular-glare" />
+
       {header?.type === 'gradient' ? (
         <div
-          className={`h-44 rounded-2xl ${header.gradientClassName} mb-6 overflow-hidden relative group-hover:shadow-[0_0_25px_rgba(56,189,248,0.3)] transition-all duration-300`}
+          className={`h-44 rounded-2xl ${header.gradientClassName} mb-6 overflow-hidden relative group-hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] transition-all duration-300`}
         >
           <div
             className={`absolute inset-0 ${header.overlayClassName} mix-blend-overlay`}
@@ -62,7 +64,7 @@ export default function ProjectCard({
               {header.eyebrow}
             </div>
             <div>
-              <div className="text-2xl font-display font-bold text-white group-hover:text-sky-300 transition-colors">
+              <div className="text-2xl font-display font-bold text-white group-hover:text-white transition-colors">
                 {header.name}
               </div>
               <div className="text-xs text-gray-400">{header.subtitle}</div>

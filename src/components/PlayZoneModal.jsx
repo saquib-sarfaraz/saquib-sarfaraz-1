@@ -12,8 +12,8 @@ const ARCADE_GAMES = [
     status: 'available',
     description: 'Real-time socket-based multiplayer Tic-Tac-Toe with global matchmaking & room codes.',
     url: 'https://xyxo.vercel.app/',
-    gradient: 'from-sky-500/20 via-purple-600/20 to-indigo-500/20',
-    borderColor: 'border-sky-400/50 hover:border-sky-400',
+    gradient: 'from-[#171A25] via-[#222633]/80 to-[#10131D]',
+    borderColor: 'border-[#414655] hover:border-[#747B8B]',
   },
   {
     id: 'cityflow',
@@ -23,8 +23,8 @@ const ARCADE_GAMES = [
     badge: '3D Traffic',
     status: 'comingSoon',
     description: 'Urban traffic signal optimization & multi-agent road pathfinding engine.',
-    gradient: 'from-slate-900 via-slate-900/90 to-emerald-950/20',
-    borderColor: 'border-slate-800 hover:border-emerald-500/30',
+    gradient: 'from-[#171A25] via-[#10131D] to-[#080A12]',
+    borderColor: 'border-[#414655]/60 hover:border-[#747B8B]/60',
   },
   {
     id: 'codebreaker',
@@ -34,8 +34,8 @@ const ARCADE_GAMES = [
     badge: 'Logic',
     status: 'comingSoon',
     description: 'Decrypt obfuscated hex payloads under time constraints in a terminal interface.',
-    gradient: 'from-slate-900 via-slate-900/90 to-purple-950/20',
-    borderColor: 'border-slate-800 hover:border-purple-500/30',
+    gradient: 'from-[#171A25] via-[#10131D] to-[#080A12]',
+    borderColor: 'border-[#414655]/60 hover:border-[#747B8B]/60',
   },
   {
     id: 'speed-typer',
@@ -45,8 +45,8 @@ const ARCADE_GAMES = [
     badge: 'Developer',
     status: 'comingSoon',
     description: 'Measure your WPM & accuracy typing production JavaScript & React snippets.',
-    gradient: 'from-slate-900 via-slate-900/90 to-amber-950/20',
-    borderColor: 'border-slate-800 hover:border-amber-500/30',
+    gradient: 'from-[#171A25] via-[#10131D] to-[#080A12]',
+    borderColor: 'border-[#414655]/60 hover:border-[#747B8B]/60',
   }
 ];
 
@@ -143,24 +143,25 @@ export default function PlayZoneModal({ isOpen, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className={`relative w-full max-w-5xl h-[92vh] sm:h-[90vh] max-h-[850px] rounded-3xl bg-[#090D1E]/95 border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.9)] flex flex-col justify-between overflow-hidden transition-all duration-300 ${
+          className={`relative w-full max-w-5xl h-[92vh] sm:h-[90vh] max-h-[850px] rounded-3xl optical-modal-card apple-glass-edge flex flex-col justify-between overflow-hidden transition-all duration-300 ${
             isFullscreen ? 'max-w-none max-h-none h-full rounded-none border-none' : ''
           }`}
         >
+          <div className="apple-specular-glare" />
           
           {/* OS Window Header Controls */}
-          <div className="p-3.5 sm:p-5 border-b border-white/15 bg-slate-900/90 backdrop-blur-xl flex items-center justify-between shrink-0 pt-safe">
+          <div className="p-3.5 sm:p-5 border-b border-white/15 bg-white/[0.02] flex items-center justify-between shrink-0 pt-safe relative z-10">
             <div className="flex items-center gap-2 sm:gap-3">
               {selectedGame ? (
                 <button
                   onClick={handleBackToArcade}
-                  className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-sky-300 font-mono text-xs font-bold hover:bg-white/20 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl apple-glass-btn text-[#F5F6FA] font-mono text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back</span>
                 </button>
               ) : (
-                <div className="p-2 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-400/30">
+                <div className="p-2 rounded-xl apple-glass-btn text-white">
                   <Gamepad2 className="w-5 h-5" />
                 </div>
               )}
@@ -169,10 +170,10 @@ export default function PlayZoneModal({ isOpen, onClose }) {
                 <div className="flex items-center gap-2">
                   <h3 className="text-base sm:text-lg font-extrabold text-white font-sans flex items-center gap-1.5">
                     <span>🎮 {selectedGame ? selectedGame.title : 'Play Zone Arcade Library'}</span>
-                    <span className="text-xs font-mono font-normal text-sky-400">v2.6 OS</span>
+                    <span className="text-xs font-mono font-normal text-[#949BAA]">v2.6 OS</span>
                   </h3>
                 </div>
-                <p className="text-xs font-mono text-slate-400 hidden sm:block">
+                <p className="text-xs font-mono text-[#949BAA] hidden sm:block">
                   {selectedGame ? selectedGame.category : 'Browse interactive mini experiences & arcade games.'}
                 </p>
               </div>
@@ -183,7 +184,7 @@ export default function PlayZoneModal({ isOpen, onClose }) {
               {/* Fullscreen Toggle Button (⛶) */}
               <button
                 onClick={toggleFullscreen}
-                className="px-3 py-1.5 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 font-mono text-xs font-bold hover:bg-sky-500/30 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                className="px-3 py-1.5 rounded-full apple-glass-btn text-[#F5F6FA] font-mono text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
                 title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
               >
                 {isFullscreen ? (
@@ -203,7 +204,7 @@ export default function PlayZoneModal({ isOpen, onClose }) {
               {selectedGame && selectedGame.url && (
                 <button
                   onClick={() => setIframeKey((k) => k + 1)}
-                  className="p-2 rounded-full bg-white/10 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                  className="p-2 rounded-full apple-glass-btn text-[#C6CBD6] hover:text-white transition-colors cursor-pointer"
                   title="Reload Game"
                 >
                   <RotateCw className="w-4 h-4" />
@@ -219,7 +220,7 @@ export default function PlayZoneModal({ isOpen, onClose }) {
                   setSelectedGame(null);
                   onClose();
                 }}
-                className="p-2.5 rounded-full bg-white/10 hover:bg-rose-500/20 hover:text-rose-400 text-slate-300 transition-colors cursor-pointer"
+                className="p-2 rounded-full apple-glass-btn text-[#C6CBD6] hover:text-white transition-colors cursor-pointer"
                 aria-label="Close Play Zone"
               >
                 <X className="w-5 h-5" />
@@ -227,32 +228,32 @@ export default function PlayZoneModal({ isOpen, onClose }) {
             </div>
           </div>
 
-          {/* OS Window Body — Independent Vertical Scroll Area with Lenis Scroll Lock Isolation */}
+          {/* OS Window Body */}
           <div
             data-lenis-prevent
-            className="flex-1 overflow-y-auto overscroll-contain p-3 sm:p-8 space-y-6 scrollbar-none"
+            className="flex-1 overflow-y-auto overscroll-contain p-3 sm:p-8 space-y-6 scrollbar-none relative z-10"
           >
             
             {/* VIEW A: ARCADE SELECTION GRID */}
             {!selectedGame ? (
               <div className="space-y-6 max-w-5xl mx-auto">
                 {/* Banner Header */}
-                <div className="p-6 rounded-3xl bg-gradient-to-r from-sky-500/10 via-purple-600/10 to-emerald-500/10 border border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                <div className="p-6 rounded-3xl bg-gradient-to-r from-[#171A25] via-[#222633]/60 to-[#10131D] border border-[#414655] flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
                   <div className="space-y-1">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 text-[11px] font-mono font-bold uppercase tracking-wider">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-[11px] font-mono font-bold uppercase tracking-wider border border-white/15">
                       <Sparkles className="w-3.5 h-3.5" /> Saquib OS Arcade Library
                     </div>
-                    <p className="text-xs text-slate-300 font-mono pt-1">
+                    <p className="text-xs text-[#C6CBD6] font-mono pt-1">
                       1 Active Game online • 3 Production Releases Coming Soon.
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 font-mono text-xs text-slate-300">
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/30 font-bold">
-                      🟢 1 Playable
+                  <div className="flex items-center gap-2 font-mono text-xs text-[#C6CBD6]">
+                    <span className="px-3 py-1 rounded-full bg-white/10 text-white border border-white/20 font-bold">
+                      ● 1 Playable
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 border border-amber-400/30 font-bold">
-                      🟡 3 Coming Soon
+                    <span className="px-3 py-1 rounded-full bg-[#171A25] text-[#949BAA] border border-[#414655] font-bold">
+                      ○ 3 Coming Soon
                     </span>
                   </div>
                 </div>
@@ -267,46 +268,48 @@ export default function PlayZoneModal({ isOpen, onClose }) {
                         key={game.id}
                         whileHover={{ y: -4, scale: 1.01 }}
                         whileTap={{ scale: 0.98 }}
-                        className={`p-6 rounded-3xl bg-gradient-to-br ${game.gradient} border ${game.borderColor} transition-all cursor-pointer flex flex-col justify-between space-y-4 shadow-xl backdrop-blur-xl group relative overflow-hidden`}
+                        className="p-6 rounded-3xl glass-card glass-card-hover apple-glass-edge transition-all cursor-pointer flex flex-col justify-between space-y-4 group relative overflow-hidden"
                       >
-                        <div className="space-y-3">
+                        <div className="apple-specular-glare" />
+
+                        <div className="space-y-3 relative z-10">
                           {/* Header Status Row */}
                           <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-mono font-extrabold px-2.5 py-0.5 rounded bg-white/10 text-sky-300 border border-white/15">
+                            <span className="text-[10px] font-mono font-extrabold px-2.5 py-0.5 rounded bg-white/10 text-[#C6CBD6] border border-white/15">
                               {game.category}
                             </span>
                             
                             {isPlayable ? (
-                              <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/40 flex items-center gap-1 shadow-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                🟢 Play Now
+                              <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-white/15 text-white border border-white/30 flex items-center gap-1 shadow-sm">
+                                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                                Play Now
                               </span>
                             ) : (
-                              <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-400/30 flex items-center gap-1">
-                                <Clock className="w-3 h-3 text-amber-400" />
-                                🟡 Coming Soon
+                              <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-[#171A25] text-[#949BAA] border border-[#414655] flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-[#949BAA]" />
+                                Coming Soon
                               </span>
                             )}
                           </div>
 
                           {/* Game Info */}
                           <div>
-                            <h4 className={`text-xl font-extrabold font-sans ${isPlayable ? 'text-white group-hover:text-sky-300' : 'text-slate-200'}`}>
+                            <h4 className={`text-xl font-extrabold font-sans ${isPlayable ? 'text-white group-hover:text-white' : 'text-[#C6CBD6]'}`}>
                               {game.title}
                             </h4>
-                            <p className="text-xs text-slate-300 pt-1 leading-relaxed font-sans line-clamp-2">
+                            <p className="text-xs text-[#949BAA] pt-1 leading-relaxed font-sans line-clamp-2">
                               {game.description}
                             </p>
                           </div>
                         </div>
 
                         {/* Card Action Footer */}
-                        <div className="pt-3 border-t border-white/15 flex items-center justify-between font-mono text-xs font-bold">
+                        <div className="pt-3 border-t border-white/10 flex items-center justify-between font-mono text-xs font-bold relative z-10">
                           {isPlayable ? (
                             <div className="flex items-center gap-2 w-full">
                               <button
                                 onClick={() => handleLaunchGame(game, false)}
-                                className="flex-1 py-2.5 rounded-xl bg-white text-black font-extrabold text-xs hover:bg-slate-200 transition-all flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
+                                className="flex-1 py-2.5 rounded-xl apple-glass-btn !bg-white/95 !text-black hover:!bg-white font-extrabold text-xs transition-all flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
                               >
                                 <Play className="w-3.5 h-3.5 fill-current" />
                                 <span>▶ Play</span>
@@ -314,7 +317,7 @@ export default function PlayZoneModal({ isOpen, onClose }) {
 
                               <button
                                 onClick={() => handleLaunchGame(game, true)}
-                                className="p-2.5 rounded-xl bg-sky-500/20 border border-sky-400/40 text-sky-300 hover:bg-sky-500/30 hover:text-white transition-all cursor-pointer"
+                                className="p-2.5 rounded-xl apple-glass-btn text-white transition-all cursor-pointer"
                                 title="Play Fullscreen"
                               >
                                 <Maximize2 className="w-3.5 h-3.5" />
@@ -322,11 +325,11 @@ export default function PlayZoneModal({ isOpen, onClose }) {
                             </div>
                           ) : (
                             <div className="flex items-center justify-between w-full">
-                              <span className="px-3.5 py-2 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-400 text-[11px] font-mono font-medium flex items-center gap-1.5 cursor-not-allowed">
-                                <Lock className="w-3 h-3 text-slate-500" />
+                              <span className="px-3.5 py-2 rounded-xl bg-[#171A25] border border-[#414655] text-[#949BAA] text-[11px] font-mono font-medium flex items-center gap-1.5 cursor-not-allowed">
+                                <Lock className="w-3 h-3 text-[#747B8B]" />
                                 <span>Coming Soon</span>
                               </span>
-                              <span className="text-[10px] text-slate-500 uppercase">{game.badge}</span>
+                              <span className="text-[10px] text-[#747B8B] uppercase">{game.badge}</span>
                             </div>
                           )}
                         </div>
@@ -339,7 +342,7 @@ export default function PlayZoneModal({ isOpen, onClose }) {
               /* VIEW B: EMBEDDED GAME VIEWPORT */
               <div
                 ref={gameContainerRef}
-                className="w-full h-full flex flex-col justify-between rounded-2xl overflow-hidden border border-white/15 bg-black/80 relative min-h-[500px]"
+                className="w-full h-full flex flex-col justify-between rounded-2xl overflow-hidden border border-[#414655] bg-black/80 relative min-h-[500px]"
               >
                 {selectedGame.url ? (
                   <iframe
@@ -354,7 +357,7 @@ export default function PlayZoneModal({ isOpen, onClose }) {
                   <div className="p-8 text-center space-y-6 my-auto max-w-md mx-auto">
                     <button
                       onClick={handleBackToArcade}
-                      className="px-6 py-3 rounded-full bg-white text-black font-extrabold text-xs hover:bg-slate-200 transition-all cursor-pointer"
+                      className="px-6 py-3 rounded-full bg-white text-black font-extrabold text-xs hover:bg-[#C6CBD6] transition-all cursor-pointer"
                     >
                       Return to Arcade Grid
                     </button>
@@ -365,10 +368,10 @@ export default function PlayZoneModal({ isOpen, onClose }) {
           </div>
 
           {/* OS Window Footer Bar */}
-          <div className="p-3 border-t border-white/15 bg-slate-950/90 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0 pb-safe">
+          <div className="p-3 border-t border-[#414655] bg-[#080A12]/95 flex items-center justify-between text-[11px] font-mono text-[#949BAA] shrink-0 pb-safe">
             <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Saquib OS Arcade Library</span>
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="text-[#F5F6FA]">Saquib OS Arcade Library</span>
             </span>
             <span className="hidden sm:inline">1 Playable • 3 Releases Coming Soon</span>
           </div>

@@ -90,8 +90,8 @@ export default function AIMessage({ message, onTriggerAction }) {
       <div
         className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 shadow-md ${
           isUser
-            ? 'bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-mono'
-            : 'bg-gradient-to-tr from-sky-400 via-purple-500 to-emerald-400 text-white shadow-sky-500/20'
+            ? 'bg-white text-black font-mono shadow-sm'
+            : 'bg-[#171A25] border border-[#414655] text-white shadow-sm'
         }`}
       >
         {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
@@ -101,8 +101,8 @@ export default function AIMessage({ message, onTriggerAction }) {
       <div
         className={`max-w-[85%] sm:max-w-[75%] rounded-3xl p-4 sm:p-5 space-y-3 shadow-xl backdrop-blur-2xl border ${
           isUser
-            ? 'bg-sky-500/10 border-sky-400/30 text-white rounded-tr-none'
-            : 'bg-slate-900/90 border-slate-800 text-slate-200 rounded-tl-none'
+            ? 'bg-[#222633] border-[#747B8B] text-[#F5F6FA] rounded-tr-none'
+            : 'bg-[#171A25]/90 border-[#414655] text-[#C6CBD6] rounded-tl-none'
         }`}
       >
         {/* Message Body Content */}

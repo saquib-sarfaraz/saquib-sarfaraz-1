@@ -59,17 +59,17 @@ export default function AIChat({ messages = [], isThinking = false, onTriggerAct
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-3 text-left pt-2"
         >
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-400 via-purple-500 to-emerald-400 flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-md">
-            <Bot className="w-4 h-4 animate-bounce" />
+          <div className="w-8 h-8 rounded-full bg-[#171A25] border border-[#414655] flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-md">
+            <Bot className="w-4 h-4 animate-bounce text-white" />
           </div>
 
-          <div className="px-4 py-3 rounded-2xl bg-slate-900/90 border border-slate-800 text-slate-300 font-mono text-xs flex items-center gap-2 shadow-lg">
-            <Sparkles className="w-3.5 h-3.5 text-sky-400 animate-spin" />
+          <div className="px-4 py-3 rounded-2xl bg-[#171A25] border border-[#414655] text-[#C6CBD6] font-mono text-xs flex items-center gap-2 shadow-lg">
+            <Sparkles className="w-3.5 h-3.5 text-white animate-spin" />
             <span>Saquib AI is thinking & retrieving knowledge...</span>
             <div className="flex gap-1 ml-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse delay-100" />
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse delay-200" />
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C6CBD6] animate-pulse delay-100" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#747B8B] animate-pulse delay-200" />
             </div>
           </div>
         </motion.div>
@@ -85,9 +85,9 @@ export default function AIChat({ messages = [], isThinking = false, onTriggerAct
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             onClick={scrollToBottom}
-            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full bg-slate-900/95 hover:bg-slate-800 text-sky-400 hover:text-sky-300 border border-sky-400/40 font-mono text-xs font-bold shadow-2xl backdrop-blur-xl flex items-center gap-2 cursor-pointer transition-all"
+            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-4 py-2 rounded-full bg-[#171A25]/95 hover:bg-[#222633] text-white border border-[#414655] font-mono text-xs font-bold shadow-2xl backdrop-blur-xl flex items-center gap-2 cursor-pointer transition-all"
           >
-            <ArrowDown className="w-3.5 h-3.5 animate-bounce text-sky-400" />
+            <ArrowDown className="w-3.5 h-3.5 animate-bounce text-white" />
             <span>Jump to latest</span>
           </motion.button>
         )}

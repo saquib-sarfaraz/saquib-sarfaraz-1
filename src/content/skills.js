@@ -14,6 +14,15 @@ export const skillsData = {
           icon: 'react'
         },
         {
+          name: 'TypeScript',
+          proficiency: 'Advanced',
+          level: 'Type Safety',
+          experience: '2+ Years',
+          concepts: ['Generics', 'Interfaces & Types', 'Strict Typing', 'Union Types', 'Utility Types'],
+          projectsCount: 6,
+          icon: 'typescript'
+        },
+        {
           name: 'JavaScript (ES6+)',
           proficiency: 'Advanced',
           level: 'Core Mastery',

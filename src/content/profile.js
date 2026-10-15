@@ -2,9 +2,9 @@ export const profileData = {
   name: "Saquib Sarfaraz",
   title: "Full Stack Developer",
   osName: "Saquib OS",
-  osVersion: "v2.6",
+  osVersion: "v3.0",
   tagline: "Engineering scalable web experiences & interactive digital products.",
-  location: "New Delhi, India",
+  location: null, // Public GitHub profile (github.com/saquib-sarfaraz) location field is null; neutral fallback used
   education: "B.Tech Computer Science Engineering student at Jamia Hamdard",
   availability: "Available for Full Stack Roles & Internships",
   status: "Online • Ready to Deploy",
@@ -26,35 +26,29 @@ export const profileData = {
     status: "🟢 Available for Opportunities",
     preferredRoles: ["Full Stack Developer", "Frontend Engineer", "Software Engineer"],
     responseTime: "< 24 hours",
-    lastUpdated: "July 2026",
-    currentLocation: "New Delhi, India (Open to Remote / Relocation)"
+    lastUpdated: "October 2026",
+    currentLocation: "Open to Remote / Relocation"
   },
   metrics: [
-    { label: "Active Internship", value: "WonderKids", detail: "Full Stack Developer Intern" },
+    { label: "Latest Internship", value: "Confidential Gov", detail: "Software Developer Intern (Remote)" },
     { label: "Production Platforms", value: "Built & Live", detail: "Full Stack SaaS & Realtime Engines" },
     { label: "Community Leadership", value: "Campus Lead", detail: "GFG Campus Mantri & NSDC" },
     { label: "Academic Standing", value: "B.Tech CSE", detail: "Jamia Hamdard University" },
   ],
   currentlyBuilding: [
     {
-      title: "Educational Web Platforms & Games",
-      description: "Building production educational web applications, simulation engines, and interactive modules at WonderKids Club.",
-      badge: "Production"
-    },
-    {
       title: "Real-Time Systems & Architecture",
       description: "Architecting event-driven real-time socket engines with presence detection and auto-purging message buffers.",
-      badge: "Architecture"
-    },
-    {
-      title: "Modern Design Systems & UI",
-      description: "Crafting accessible, minimal design systems and micro-interactions inspired by Apple, Linear, and Vercel.",
-      badge: "Design Systems"
+      badge: "Architecture",
+      tech: "Socket.io",
+      techLabel: "Socket.io & Node.js"
     },
     {
       title: "Full Stack SaaS Applications",
       description: "Building production SaaS platforms with Next.js/React, Node.js, Express, and MongoDB aggregation pipelines.",
-      badge: "Full Stack"
+      badge: "Full Stack",
+      tech: "MongoDB",
+      techLabel: "MongoDB & Express"
     }
   ]
 };

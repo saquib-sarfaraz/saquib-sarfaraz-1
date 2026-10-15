@@ -1,102 +1,80 @@
+export const confidentialGovInternship = {
+  isCurrent: false,
+  id: 'confidential-gov-internship-2026',
+  title: "Confidential Government",
+  subtitle: "Software Developer Intern • August 2026 – September 2026",
+  company: "Confidential Government",
+  role: "Software Developer Intern",
+  statusBadge: "Verified Internship",
+  period: "August 2026 – September 2026",
+  location: "Remote (Riyadh, Saudi Arabia)",
+  companyLocation: "Riyadh, Saudi Arabia",
+  workMode: "Remote",
+  type: "Industry Internship",
+  highlightBadge: "Verified Internship",
+  isPinned: true,
+  summary: "Worked on software development and web-based solutions, contributing to backend functionality, administrative interfaces, responsive user experiences, and production-focused implementations. Gained practical experience translating requirements into functional features while focusing on usability, maintainability, and reliable delivery.",
+  ongoingSummary: "Worked on software development and web-based solutions, contributing to backend functionality, administrative interfaces, responsive user experiences, and production-focused implementations.",
+  impactBullets: [
+    "Contributed to software development and web-based solutions, implementing backend functionality and administrative interfaces.",
+    "Engineered responsive user experiences and production-focused implementations with reliable delivery.",
+    "Translated functional requirements into maintainable, well-structured software features with emphasis on usability.",
+    "Delivered remote software engineering solutions adhering to high standards of reliability and code quality."
+  ],
+  techStack: ["Software Development", "Web Development", "Backend Development", "Admin Panels", "Responsive Design"]
+};
+
 export const wonderkidsInternship = {
-  isCurrent: true,
+  isCurrent: false,
   id: 'wonderkids-internship-2026',
-  title: "WonderKids Club",
-  subtitle: "Full Stack Developer Intern • June 2026 – August 2026 (Current)",
-  company: "WonderKids Club",
-  role: "Full Stack Developer Intern",
-  statusBadge: "CURRENT",
+  title: "Wonderkids.club",
+  subtitle: "Full Stack Web Developer Intern • June 2026 – August 2026",
+  company: "Wonderkids.club",
+  role: "Full Stack Web Developer Intern",
+  statusBadge: "Verified Internship",
   period: "June 2026 – August 2026",
   location: "Remote",
   type: "Industry Internship",
-  highlightBadge: "CURRENT",
-  isPinned: true,
-  ongoingSummary: "Developing production-ready educational web applications, interactive learning games, and full-stack features while collaborating directly with the founder.",
+  highlightBadge: "Verified Internship",
+  isPinned: false,
+  summary: "Built interactive educational games and responsive UI screens for a live EdTech product, working across front-end components and PHP/Python backend modules.",
+  ongoingSummary: "Developed production-ready educational web applications, interactive learning games, and full-stack features while collaborating directly with the founder.",
   impactBullets: [
-    "Developed production-ready educational web applications and interactive learning games.",
-    "Built responsive interfaces using HTML, CSS, and JavaScript.",
-    "Worked with PHP and Python for backend functionality and platform features.",
-    "Collaborated directly with the founder to implement production-ready educational experiences.",
-    "Improved UI responsiveness, animations, and cross-device compatibility.",
-    "Contributed to real-world product development for a live educational platform."
+    "Built interactive educational games and responsive UI screens for a live EdTech product, working across the front end and PHP/Python backend modules.",
+    "Fixed production bugs and improved rendering performance; shipped changes directly to the live product under tight iteration cycles.",
+    "Improved mobile compatibility across core learning modules, owning each feature from development through production release."
   ],
-  techStack: ["HTML5", "CSS3", "JavaScript", "PHP", "Python", "Git"]
+  techStack: ["HTML5", "CSS3", "JavaScript", "PHP", "Python", "Responsive Design", "Git"]
 };
 
+export const pizeonflyInternship = {
+  isCurrent: false,
+  id: 'pizeonfly-internship-2024',
+  year: '2024',
+  title: 'Pizeonfly Pvt Ltd',
+  subtitle: "Web Developer Intern • September 2024 – October 2024",
+  role: 'Web Developer Intern',
+  company: 'Pizeonfly Pvt Ltd',
+  type: 'Industry Internship',
+  highlightBadge: 'Verified Internship',
+  statusBadge: 'Verified Internship',
+  period: "September 2024 – October 2024",
+  location: 'New Delhi, India',
+  isPinned: false,
+  summary: "Built full-stack features using React.js frontend and Node.js/Express.js backend, implemented authentication flows, and supported live production performance.",
+  impactBullets: [
+    "Built full-stack features with React.js and Node.js/Express.js, including authentication flows and REST API integrations.",
+    "Debugged cross-browser and backend issues in a live production environment.",
+    "Supported end-to-end module performance and deployment stability across production environments."
+  ],
+  techStack: ["React.js", "Node.js", "Express.js", "REST APIs", "JWT Auth", "Google OAuth", "Vercel", "Render"]
+};
+
+// Verified Employment History (Strictly reverse chronological order)
 export const resumeExperienceData = [
+  confidentialGovInternship,
   wonderkidsInternship,
-  {
-    id: 'pizeonfly-internship-2024',
-    year: '2024',
-    title: 'Pizeonfly Pvt Ltd',
-    role: 'Web Developer Intern',
-    company: 'Pizeonfly Pvt Ltd',
-    type: 'Industry Internship',
-    highlightBadge: 'Verified Internship',
-    period: "Sep 2024 – Oct 2024",
-    location: 'New Delhi, India',
-    isCurrent: false,
-    impactBullets: [
-      "Developed full-stack features using React.js frontend and Node.js/Express.js backend; improved performance and stability across production modules.",
-      "Implemented auth flows, integrated REST APIs, and resolved cross-browser + backend issues in live environment.",
-      "Supported end-to-end deployment on Vercel/Render and resolved production-level frontend and backend bottlenecks."
-    ],
-    techStack: ["React.js", "Node.js", "Express.js", "REST APIs", "JWT Auth", "Google OAuth", "Vercel", "Render"]
-  },
-  {
-    id: 'gfg-campus-mantri-2025',
-    year: '2025',
-    title: 'GeeksforGeeks',
-    role: 'Campus Mantri',
-    company: 'GeeksforGeeks',
-    type: 'Community Leadership',
-    highlightBadge: 'Campus Lead',
-    period: '2025 – 2026',
-    location: 'Jamia Hamdard University',
-    isCurrent: false,
-    impactBullets: [
-      "Fostered a thriving technical culture at Jamia Hamdard by connecting 200+ students with coding competitions and workshops.",
-      "Organized peer learning sessions, hackathon prep groups, and technical resource guides.",
-      "Spearheaded student engagement programs bridging academic learning with industry developer practices."
-    ],
-    techStack: ["Community Leadership", "Event Strategy", "Public Speaking", "Mentorship"]
-  },
-  {
-    id: 'nsdc-leadership-2024',
-    year: '2024',
-    title: 'NSDC',
-    role: 'Co-Chairperson',
-    company: 'NSDC Student Chapter',
-    type: 'Leadership',
-    highlightBadge: 'Executive Lead',
-    period: '2024 – 2025',
-    location: 'Jamia Hamdard',
-    isCurrent: false,
-    impactBullets: [
-      "Co-headed skill development initiatives and technical workshops aligned with national tech frameworks.",
-      "Managed student committees, speaker invitations, and technical symposiums.",
-      "Fostered industry skill building across web development and software engineering disciplines."
-    ],
-    techStack: ["Skill Development", "Executive Leadership", "Event Coordination"]
-  },
-  {
-    id: 'ignite-society-2023',
-    year: '2023',
-    title: 'Ignite Society',
-    role: 'Joint Secretary',
-    company: 'Ignite Society & GDSC',
-    type: 'Leadership',
-    highlightBadge: 'Society Lead',
-    period: '2023 – 2024',
-    location: 'Jamia Hamdard',
-    isCurrent: false,
-    impactBullets: [
-      "Served as Joint Secretary of Ignite Society, overseeing strategic direction, hackathon planning, and event execution.",
-      "Led initiatives bridging students with industry professionals through interactive guest talks and tech expos.",
-      "Coordinated cross-functional student teams across design, logistics, and technical execution for annual tech fests."
-    ],
-    techStack: ["Team Management", "Event Planning", "UI/UX Coordination", "Strategic Planning"]
-  }
+  pizeonflyInternship
 ];
 
 export const marvelTimelineData = resumeExperienceData;

@@ -7,6 +7,7 @@ import AuroraBackground from './components/AuroraBackground';
 import ScrollProgress from './components/ScrollProgress';
 import CommandPalette from './components/CommandPalette';
 import PlayZoneModal from './components/PlayZoneModal';
+import InBuzzPage from './components/incampus/InBuzzPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -29,15 +30,25 @@ export default function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isPlayZoneOpen, setIsPlayZoneOpen] = useState(false);
   const [isAISearchOpen, setIsAISearchOpen] = useState(false);
+  const [isInBuzzOpen, setIsInBuzzOpen] = useState(false);
 
-  // Sync /ai route with state cleanly without hash tags
+  // Sync /ai and /inbuzz routes with state cleanly without hash tags
   useEffect(() => {
     const syncRouteAndTitle = () => {
-      const isAI = window.location.pathname === '/ai';
+      const path = window.location.pathname;
+      const isAI = path === '/ai';
+      const isInBuzz = path === '/inbuzz';
+
       setIsAISearchOpen(isAI);
-      document.title = isAI
-        ? 'AI Search Workspace | Saquib Sarfaraz'
-        : 'Saquib Sarfaraz | Full Stack Developer';
+      setIsInBuzzOpen(isInBuzz);
+
+      if (isInBuzz) {
+        document.title = 'InCampus InBuzz | Saquib Sarfaraz';
+      } else if (isAI) {
+        document.title = 'AI Search Workspace | Saquib Sarfaraz';
+      } else {
+        document.title = 'Saquib Sarfaraz | Full Stack Developer';
+      }
     };
 
     syncRouteAndTitle();
@@ -48,6 +59,7 @@ export default function App() {
 
   const openAISearch = () => {
     setIsAISearchOpen(true);
+    setIsInBuzzOpen(false);
     document.title = 'AI Search Workspace | Saquib Sarfaraz';
     window.history.pushState({ page: 'ai' }, 'AI Search Workspace | Saquib Sarfaraz', '/ai');
   };
@@ -56,6 +68,21 @@ export default function App() {
     setIsAISearchOpen(false);
     document.title = 'Saquib Sarfaraz | Full Stack Developer';
     if (window.location.pathname === '/ai') {
+      window.history.pushState({ page: 'home' }, 'Saquib Sarfaraz | Full Stack Developer', '/');
+    }
+  };
+
+  const openInBuzz = () => {
+    setIsInBuzzOpen(true);
+    setIsAISearchOpen(false);
+    document.title = 'InCampus InBuzz | Saquib Sarfaraz';
+    window.history.pushState({ page: 'inbuzz' }, 'InCampus InBuzz | Saquib Sarfaraz', '/inbuzz');
+  };
+
+  const closeInBuzz = () => {
+    setIsInBuzzOpen(false);
+    document.title = 'Saquib Sarfaraz | Full Stack Developer';
+    if (window.location.pathname === '/inbuzz') {
       window.history.pushState({ page: 'home' }, 'Saquib Sarfaraz | Full Stack Developer', '/');
     }
   };
@@ -133,9 +160,17 @@ export default function App() {
     };
   }, []);
 
+  if (isInBuzzOpen) {
+    return (
+      <ThemeProvider>
+        <InBuzzPage onBack={closeInBuzz} />
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider>
-      <div className="relative min-h-screen selection:bg-sky-500 selection:text-white font-sans antialiased overflow-x-hidden transition-colors duration-700">
+      <div className="relative min-h-screen selection:bg-white/20 selection:text-white font-sans antialiased overflow-x-clip transition-colors duration-700">
         {/* Full-Screen AI Search Workspace View (/ai) */}
         {isAISearchOpen && (
           <AIPage
@@ -174,6 +209,8 @@ export default function App() {
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
           onOpenPlayZone={() => setIsPlayZoneOpen(true)}
           onOpenAISearch={openAISearch}
+          onOpenInCampusInBuzz={openInBuzz}
+          onOpenInCampusReels={openInBuzz}
         />
 
         {/* Main OS Viewport */}
@@ -193,7 +230,10 @@ export default function App() {
         </main>
 
         {/* Footer */}
-        <Footer />
+        <Footer
+          onOpenInCampusInBuzz={openInBuzz}
+          onOpenInCampusReels={openInBuzz}
+        />
       </div>
     </ThemeProvider>
   );

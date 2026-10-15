@@ -175,31 +175,34 @@ export default function CommandPalette({ isOpen, onClose, onOpenAISearch }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: -15 }}
             transition={{ duration: 0.15 }}
-            className="relative w-full max-w-xl bg-[#111111] border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-10"
+            className="relative w-full max-w-xl optical-modal-card apple-glass-edge rounded-2xl overflow-hidden z-10 backdrop-blur-3xl"
           >
+            <div className="apple-specular-glare" />
+
             {/* Search Bar */}
-            <div className="flex items-center px-4 py-3.5 border-b border-zinc-800 gap-3">
-              <Search className="w-4 h-4 text-zinc-500 shrink-0" />
+            <div className="flex items-center px-4 py-3.5 border-b border-white/15 gap-3 relative z-10 bg-white/[0.02]">
+              <Search className="w-4 h-4 text-white shrink-0" />
               <input
                 type="text"
                 autoFocus
                 placeholder="Type a command or search..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full bg-transparent text-white placeholder-zinc-500 focus:outline-none text-sm font-medium"
+                className="w-full bg-transparent text-white placeholder-slate-400 focus:outline-none text-sm font-medium"
               />
               <button
                 onClick={onClose}
-                className="text-zinc-500 hover:text-white p-1 rounded-lg transition-colors"
+                className="apple-glass-btn text-slate-400 hover:text-white p-1.5 rounded-lg transition-colors cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Results List */}
-            <div className="max-h-80 overflow-y-auto p-2 space-y-1">
+            <div className="max-h-80 overflow-y-auto p-2 space-y-1 relative z-10">
               {filtered.length === 0 ? (
-                <div className="py-8 text-center text-xs text-zinc-500 font-mono">
+                <div className="py-8 text-center text-xs text-slate-400 font-mono">
                   No commands found matching "{query}"
                 </div>
               ) : (
@@ -209,22 +212,22 @@ export default function CommandPalette({ isOpen, onClose, onOpenAISearch }) {
                     <button
                       key={action.id}
                       onClick={action.perform}
-                      className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-zinc-800/70 border border-transparent hover:border-zinc-700 text-left group transition-all"
+                      className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 text-left group transition-all"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-zinc-800/80 text-zinc-400 group-hover:text-white transition-colors">
+                        <div className="p-2 rounded-lg apple-glass-btn text-[#C6CBD6] group-hover:text-white transition-colors">
                           <Icon className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="text-sm font-medium text-zinc-200 group-hover:text-white">
+                          <div className="text-sm font-medium text-slate-200 group-hover:text-white">
                             {action.label}
                           </div>
-                          <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-mono">
+                          <div className="text-[10px] text-slate-400 uppercase tracking-wider font-mono">
                             {action.category}
                           </div>
                         </div>
                       </div>
-                      <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-zinc-300 transition-colors opacity-0 group-hover:opacity-100" />
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors opacity-0 group-hover:opacity-100" />
                     </button>
                   );
                 })
@@ -232,15 +235,15 @@ export default function CommandPalette({ isOpen, onClose, onOpenAISearch }) {
             </div>
 
             {/* Footer */}
-            <div className="px-4 py-2.5 border-t border-zinc-800 bg-zinc-900/40 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+            <div className="px-4 py-2.5 border-t border-white/15 bg-black/20 flex items-center justify-between text-[11px] text-slate-400 font-mono relative z-10">
               <div className="flex items-center gap-2">
-                <span className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">↑↓</span>
+                <span className="px-1.5 py-0.5 rounded bg-white/10 text-slate-200 border border-white/15">↑↓</span>
                 <span>Navigate</span>
-                <span className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 ml-2">↵</span>
+                <span className="px-1.5 py-0.5 rounded bg-white/10 text-slate-200 border border-white/15 ml-2">↵</span>
                 <span>Select</span>
               </div>
               <div className="flex items-center gap-1">
-                <span className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">ESC</span>
+                <span className="px-1.5 py-0.5 rounded bg-[#222633] text-[#C6CBD6] border border-[#414655]">ESC</span>
                 <span>Close</span>
               </div>
             </div>

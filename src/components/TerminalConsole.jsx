@@ -40,7 +40,7 @@ export default function TerminalConsole() {
           type: 'response',
           content: `${profileData.name} - ${profileData.title}\n` +
                    `Education: ${profileData.education}\n` +
-                   `Location: ${profileData.location}\n` +
+                   `Location: ${profileData.location || 'Open to Remote / Relocation'}\n` +
                    `Status: ${profileData.availability}`
         });
         break;
@@ -96,25 +96,27 @@ export default function TerminalConsole() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto rounded-2xl bg-[#090B1A] border border-zinc-800 shadow-xl overflow-hidden font-mono text-xs md:text-sm my-6 text-left">
+    <div className="w-full max-w-2xl mx-auto rounded-2xl glass-card apple-glass-edge shadow-xl overflow-hidden font-mono text-xs md:text-sm my-6 text-left relative">
+      <div className="apple-specular-glare" />
+
       {/* Titlebar */}
-      <div className="px-4 py-2.5 bg-[#050816] border-b border-zinc-800 flex items-center justify-between">
+      <div className="px-4 py-2.5 bg-white/[0.02] border-b border-white/10 flex items-center justify-between relative z-10">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-          <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-          <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-          <span className="text-zinc-400 text-xs ml-2 font-medium flex items-center gap-1.5">
-            <TerminalIcon className="w-3.5 h-3.5 text-sky-400" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/20 border border-white/20" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/15 border border-white/15" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/10 border border-white/10" />
+          <span className="text-[#C6CBD6] text-xs ml-2 font-medium flex items-center gap-1.5">
+            <TerminalIcon className="w-3.5 h-3.5 text-white" />
             saquib-os-cli ~ zsh
           </span>
         </div>
-        <div className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-semibold">
+        <div className="text-[10px] text-white apple-glass-btn px-2.5 py-0.5 rounded font-semibold">
           CLI Active
         </div>
       </div>
 
       {/* Output */}
-      <div className="p-4 space-y-2 max-h-48 overflow-y-auto font-mono text-zinc-300">
+      <div className="p-4 space-y-2 max-h-48 overflow-y-auto font-mono text-[#C6CBD6] relative z-10">
         {history.map((item, idx) => (
           <div
             key={idx}
@@ -124,8 +126,8 @@ export default function TerminalConsole() {
                 : item.type === 'error'
                 ? 'text-rose-400'
                 : item.type === 'system'
-                ? 'text-cyan-400'
-                : 'text-zinc-300 whitespace-pre-wrap leading-relaxed'
+                ? 'text-[#C6CBD6]'
+                : 'text-[#949BAA] whitespace-pre-wrap leading-relaxed'
             }
           >
             {item.content}
@@ -135,17 +137,17 @@ export default function TerminalConsole() {
       </div>
 
       {/* Input */}
-      <div className="px-4 py-2 bg-black/40 border-t border-zinc-800 flex items-center gap-2">
-        <span className="text-sky-400 font-bold">$</span>
+      <div className="px-4 py-2.5 optical-glass-input border-t border-white/10 flex items-center gap-2 relative z-10">
+        <span className="text-white font-bold">$</span>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleCommand}
           placeholder="Type 'sudo hire saquib', 'whoami', or 'help'..."
-          className="w-full bg-transparent text-white placeholder-zinc-600 focus:outline-none font-mono text-xs md:text-sm"
+          className="w-full bg-transparent text-white placeholder-[#747B8B] focus:outline-none font-mono text-xs md:text-sm"
         />
-        <CornerDownLeft className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
+        <CornerDownLeft className="w-3.5 h-3.5 text-[#747B8B] shrink-0" />
       </div>
     </div>
   );

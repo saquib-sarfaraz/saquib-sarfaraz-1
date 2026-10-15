@@ -8,9 +8,9 @@ export const impactData = [
   },
   {
     id: 'internship-impact',
-    metric: 'Ongoing',
-    label: 'Full Stack Web Developer Intern',
-    description: 'Currently building production educational web applications & interactive modules at WonderKids (Vaultboard Consulting Pvt. Ltd.).',
+    metric: 'Completed',
+    label: 'Software Developer Intern',
+    description: 'Developed software and web solutions, backend functionality, and administrative interfaces at Confidential Government.',
     category: 'Experience'
   },
   {

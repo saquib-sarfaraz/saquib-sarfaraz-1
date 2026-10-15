@@ -141,14 +141,16 @@ const PORTFOLIO_PROFILE = {
   name: "Saquib Sarfaraz",
   title: "Full Stack Developer",
   education: "B.Tech Computer Science Engineering student at Jamia Hamdard, New Delhi (2023 - 2027)",
-  location: "New Delhi, India (Open to Remote & Relocation)",
+  location: "Open to Remote / Relocation",
   email: "saquibsarfaraz47@gmail.com",
   github: "https://github.com/saquib-sarfaraz",
   linkedin: "https://www.linkedin.com/in/saquib-sarfaraz-1691b9292/",
   instagram: "https://www.instagram.com/saquib.sarfaraz?igsh=MTB0ZWdlbWZnMTQ1dA==",
   website: "https://saquib-sarfaraz.vercel.app",
   resume: "/Saquib_Sarfaraz_FullStack_Resume.pdf",
-  currentInternship: "Full Stack Developer Intern at WonderKids Club (June 2026 – August 2026)",
+  latestInternship: "Software Developer Intern at Confidential Government (August 2026 – September 2026, Remote • Company in Riyadh, Saudi Arabia)",
+  currentInternship: "Software Developer Intern at Confidential Government (August 2026 – September 2026, Remote • Company in Riyadh, Saudi Arabia)",
+  previousInternship: "Full Stack Developer Intern at WonderKids Club (June 2026 – August 2026)",
   flagshipSaaS: "InCampus (https://incampus.online)",
   aiSaaS: "AI Spend Audit (https://ai-audit-lilac.vercel.app)"
 };
@@ -185,10 +187,11 @@ function checkGreetingQuery(query) {
     q === 'location?' ||
     q === 'where do you live' ||
     q.includes('where are you located') ||
-    q.includes('where are you based')
+    q.includes('where are you based') ||
+    q.includes('riyadh')
   ) {
     return {
-      message: `I'm based in **New Delhi, India** 📍 (Open to remote roles and relocation worldwide).`,
+      message: `I'm open to remote roles and relocation worldwide 📍 (My recent software developer internship at Confidential Government was remote with a company based in Riyadh, Saudi Arabia).`,
       sources: ['About'],
       actions: [
         { type: 'scroll', target: 'contact', label: 'Contact Details' }
@@ -977,8 +980,8 @@ function generateFallbackReply(query, context) {
     return `I built **AI Spend Audit** (Live at [ai-audit-lilac.vercel.app](https://ai-audit-lilac.vercel.app)) to solve a real problem development teams face: tracking and optimizing overlapping AI tool subscriptions.\n\nThe platform integrates the Groq AI LLM engine to automatically analyze subscription data, identify seat redundancies, recommend cost-saving optimizations, and generate shareable audit reports.`;
   }
 
-  if (q.includes('wonderkids') || q.includes('intern') || q.includes('experience') || q.includes('work')) {
-    return `I'm currently working as a **Full Stack Developer Intern at WonderKids Club**, where I collaborate directly with the founder to build production educational web applications, interactive simulation engines, and full-stack platform features.\n\nPreviously, I was a Web Developer Intern at **Pizeonfly Pvt Ltd**, where I developed full-stack modules with React.js and Node.js/Express, integrated REST APIs, and managed end-to-end deployments on Vercel and Render.`;
+  if (q.includes('confidential') || q.includes('government') || q.includes('wonderkids') || q.includes('intern') || q.includes('experience') || q.includes('work')) {
+    return `Most recently, I completed a **Software Developer Internship at Confidential Government** (August 2026 – September 2026, Remote), where I contributed to software development and web-based solutions, backend functionality, administrative interfaces, and responsive user experiences.\n\nPreviously, I was a Web Developer Intern at **WonderKids Club** (June 2026 – August 2026) developing production educational platforms, and earlier at **Pizeonfly Pvt Ltd** developing full-stack modules with React.js and Node.js/Express.`;
   }
 
   if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
@@ -986,12 +989,12 @@ function generateFallbackReply(query, context) {
   }
 
   if (q.includes('hire') || q.includes('why')) {
-    return `I enjoy building products that people can actually use. Rather than focusing only on academic projects, I've spent my time developing production-ready applications, experimenting with AI integrations, and working on real-world features during my internship at WonderKids Club.\n\nI learn quickly, take full ownership of my work, and pay close attention to user experience.`;
+    return `I enjoy building products that people can actually use. Rather than focusing only on academic projects, I've spent my time developing production-ready applications, experimenting with AI integrations, and completing software development internships at Confidential Government and WonderKids Club.\n\nI learn quickly, take full ownership of my work, and pay close attention to user experience.`;
   }
 
   if (q.includes('who are you') || q.includes('tell me about saquib') || q.includes('about yourself')) {
-    return `Hi! I'm **Saquib Sarfaraz**, a Full Stack Developer and Computer Science Engineering student at Jamia Hamdard in New Delhi.\n\nI enjoy building products that solve real problems rather than just academic projects. Over the past year, I've worked on everything from AI-powered SaaS applications to real-time platforms and interactive web experiences.\n\nOne of my flagship projects is **InCampus**, a private campus social platform with real-time chat, authentication, and community features. I also built **AI Spend Audit**, which helps users analyze and optimize AI tool subscriptions.\n\nI'm currently working as a **Full Stack Developer Intern at WonderKids Club**, where I'm contributing to production web applications and shipping features used by real users.`;
+    return `Hi! I'm **Saquib Sarfaraz**, a Full Stack Developer and Computer Science Engineering student at Jamia Hamdard.\n\nI enjoy building products that solve real problems rather than just academic projects. Over the past year, I've worked on everything from AI-powered SaaS applications to real-time platforms and interactive web experiences.\n\nOne of my flagship projects is **InCampus**, a private campus social platform with real-time chat, authentication, and community features. I also built **AI Spend Audit**, which helps users analyze and optimize AI tool subscriptions.\n\nI recently completed software engineering internships at **Confidential Government** and **WonderKids Club**, contributing to production web applications and shipping features used by real users.`;
   }
 
-  return `I specialize in product engineering, scalable SaaS web platforms (**InCampus**, **AI Spend Audit**), real-time socket engines, and interactive web tools. I'm currently a Full Stack Developer Intern at **WonderKids Club**.`;
+  return `I specialize in product engineering, scalable SaaS web platforms (**InCampus**, **AI Spend Audit**), real-time socket engines, and interactive web tools. I recently completed a Software Developer Internship at **Confidential Government**.`;
 }

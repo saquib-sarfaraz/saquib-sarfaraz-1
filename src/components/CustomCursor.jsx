@@ -138,11 +138,11 @@ export default function CustomCursor() {
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none">
       
-      {/* LAYER 1: Core Dot (6px, #3DBBFF bright cyan with soft glow) */}
+      {/* LAYER 1: Core Dot (#FFFFFF pure white with soft specular glow) */}
       <div
         ref={coreDotRef}
         style={{ willChange: 'transform' }}
-        className={`fixed top-0 left-0 w-[6px] h-[6px] rounded-full bg-[#3DBBFF] shadow-[0_0_10px_#3DBBFF] transition-transform duration-100 ease-out ${
+        className={`fixed top-0 left-0 w-[6px] h-[6px] rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-transform duration-100 ease-out ${
           isMouseDown ? 'scale-[0.6]' : 'scale-100'
         } ${cursorType === 'text' ? 'opacity-0' : 'opacity-100'}`}
       />
@@ -160,12 +160,12 @@ export default function CustomCursor() {
             borderRadius: cursorType === 'card' ? '14px' : cursorType === 'text' ? '2px' : '9999px',
             scale: isMouseDown ? 0.88 : isScrolling ? 0.95 : 1,
             scaleY: isScrolling ? 1.2 : 1,
-            borderColor: cursorType === 'button' || cursorType === 'card' ? 'rgba(56, 189, 248, 0.8)' : 'rgba(56, 189, 248, 0.4)',
-            backgroundColor: cursorType === 'card' ? 'rgba(15, 23, 42, 0.85)' : 'rgba(255, 255, 255, 0.03)',
-            boxShadow: cursorType === 'button' || cursorType === 'card' ? '0 0 20px rgba(56, 189, 248, 0.25)' : 'none',
+            borderColor: cursorType === 'button' || cursorType === 'card' ? 'rgba(255, 255, 255, 0.75)' : 'rgba(255, 255, 255, 0.35)',
+            backgroundColor: cursorType === 'card' ? 'rgba(16, 19, 29, 0.9)' : 'rgba(255, 255, 255, 0.03)',
+            boxShadow: cursorType === 'button' || cursorType === 'card' ? '0 0 20px rgba(255, 255, 255, 0.15)' : 'none',
           }}
           transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-          className="border border-[#3DBBFF]/40 backdrop-blur-[2px] flex items-center justify-center font-mono text-[10px] font-bold text-sky-300 tracking-wider shadow-sm"
+          className="border border-white/40 backdrop-blur-[2px] flex items-center justify-center font-mono text-[10px] font-bold text-white tracking-wider shadow-sm"
         >
           {cursorType === 'card' && cursorText}
         </motion.div>

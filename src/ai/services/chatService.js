@@ -41,9 +41,9 @@ function checkStaticClientQuery(query) {
   }
 
   // 4. Contact / How to reach query
-  if (q.includes('contact') || q.includes('reach') || q.includes('touch') || q.includes('email') || q.includes('mail') || q.includes('phone') || q.includes('social')) {
+  if (q.includes('location') || q.includes('where do you live') || q.includes('where are you') || q.includes('riyadh') || q.includes('contact') || q.includes('reach') || q.includes('touch') || q.includes('email') || q.includes('mail') || q.includes('phone') || q.includes('social')) {
     return {
-      text: `Here is how you can directly contact and connect with **Saquib Sarfaraz**:\n\n📧 **Email**: [${profileData.socials.email}](mailto:${profileData.socials.email})\n💼 **LinkedIn**: [linkedin.com/in/saquib-sarfaraz](https://www.linkedin.com/in/saquib-sarfaraz-1691b9292/)\n💻 **GitHub**: [github.com/saquib-sarfaraz](https://github.com/saquib-sarfaraz)\n📷 **Instagram**: [instagram.com/saquib.sarfaraz](https://www.instagram.com/saquib.sarfaraz?igsh=MTB0ZWdlbWZnMTQ1dA==)\n📍 **Location**: ${profileData.location}`,
+      text: `Here is how you can directly contact and connect with **Saquib Sarfaraz**:\n\n📧 **Email**: [${profileData.socials.email}](mailto:${profileData.socials.email})\n💼 **LinkedIn**: [linkedin.com/in/saquib-sarfaraz](https://www.linkedin.com/in/saquib-sarfaraz-1691b9292/)\n💻 **GitHub**: [github.com/saquib-sarfaraz](https://github.com/saquib-sarfaraz)\n📷 **Instagram**: [instagram.com/saquib.sarfaraz](https://www.instagram.com/saquib.sarfaraz?igsh=MTB0ZWdlbWZnMTQ1dA==)\n📍 **Work Preference**: ${profileData.location || 'Open to Remote / Relocation'}`,
       sources: ['Contact', 'Socials'],
       actions: [
         { type: 'external', url: `mailto:${profileData.socials.email}`, label: 'Send Direct Email' },
@@ -57,7 +57,7 @@ function checkStaticClientQuery(query) {
   // 5. Resume / CV query
   if (q.includes('resume') || q.includes('cv') || q.includes('download resume')) {
     return {
-      text: `View and download Saquib's official resume PDF:\n\n📄 [Download Resume PDF](${profileData.resumeUrl})\n\nIt details his education at Jamia Hamdard, WonderKids Club internship, full-stack technologies, and production SaaS projects.`,
+      text: `View and download Saquib's official resume PDF:\n\n📄 [Download Resume PDF](${profileData.resumeUrl})\n\nIt details his education at Jamia Hamdard, Software Developer Internship at Confidential Government, WonderKids Club internship, full-stack technologies, and production SaaS projects.`,
       sources: ['Resume'],
       actions: [
         { type: 'resume', url: profileData.resumeUrl, label: 'Download Resume PDF' },
@@ -138,7 +138,7 @@ function generateLocalFallbackText(query, retrievedContext) {
 
   // General knowledge refusal check
   const generalKnowledgeKeywords = ['elon musk', 'who is', 'capital of', 'weather', 'recipe', 'president', 'movie', 'song', 'crypto', 'bitcoin'];
-  const isGeneralQuery = generalKnowledgeKeywords.some((kw) => q.includes(kw)) && !q.includes('saquib') && !q.includes('incampus') && !q.includes('wonderkids');
+  const isGeneralQuery = generalKnowledgeKeywords.some((kw) => q.includes(kw)) && !q.includes('saquib') && !q.includes('incampus') && !q.includes('wonderkids') && !q.includes('confidential') && !q.includes('government');
 
   if (isGeneralQuery) {
     return `I'm designed to answer questions about **Saquib Sarfaraz**, including my projects, experience, skills, achievements, and portfolio. I can't answer general knowledge questions.`;
@@ -156,8 +156,8 @@ function generateLocalFallbackText(query, retrievedContext) {
     return `**AI Spend Audit** is a live SaaS platform I built (Live at [ai-audit-lilac.vercel.app](https://ai-audit-lilac.vercel.app)).\n\nIt helps startups and engineering teams analyze their AI subscription costs, detect overlapping tools, optimize team seat allocations, and generate shareable cost-saving reports using the Groq AI LLM engine.`;
   }
 
-  if (q.includes('wonderkids') || q.includes('intern') || q.includes('experience') || q.includes('work')) {
-    return `I'm currently working as a **Full Stack Developer Intern at WonderKids Club** (June 2026 – August 2026), where I collaborate directly with the founder to build production educational web applications, game simulation engines, and full-stack platform features.\n\nPreviously, I was a Web Developer Intern at **Pizeonfly Pvt Ltd** where I developed full-stack modules using React.js and Node.js/Express, integrated REST APIs, and managed end-to-end deployments on Vercel and Render.`;
+  if (q.includes('confidential') || q.includes('government') || q.includes('wonderkids') || q.includes('intern') || q.includes('experience') || q.includes('work')) {
+    return `Most recently, I completed a **Software Developer Internship at Confidential Government** (August 2026 – September 2026, Remote), where I contributed to software development and web-based solutions, backend functionality, administrative interfaces, and responsive user experiences.\n\nPreviously, I worked as a Full Stack Developer Intern at **WonderKids Club** (June 2026 – August 2026) building production educational web applications and simulation modules, and as a Web Developer Intern at **Pizeonfly Pvt Ltd** developing React/Node.js production modules.`;
   }
 
   if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
@@ -165,8 +165,8 @@ function generateLocalFallbackText(query, retrievedContext) {
   }
 
   if (q.includes('hire') || q.includes('why') || q.includes('about') || q.includes('who')) {
-    return `Hi! I'm **Saquib Sarfaraz**, a Full Stack Developer and Computer Science Engineering student at Jamia Hamdard in New Delhi.\n\nWhat makes me stand out is that I've spent my time building production-ready applications instead of only classroom projects. Over the past year, I've built live SaaS platforms like **InCampus** and **AI Spend Audit**, and I'm currently interning as a **Full Stack Developer Intern at WonderKids Club**.\n\nI enjoy solving practical problems, architecting real-time systems with Socket.io & MongoDB, and crafting polished web user experiences.`;
+    return `Hi! I'm **Saquib Sarfaraz**, a Full Stack Developer and Computer Science Engineering student at Jamia Hamdard.\n\nWhat makes me stand out is that I've spent my time building production-ready applications instead of only classroom projects. Over the past year, I've built live SaaS platforms like **InCampus** and **AI Spend Audit**, and recently completed software engineering internships at **Confidential Government** and **WonderKids Club**.\n\nI enjoy solving practical problems, architecting real-time systems with Socket.io & MongoDB, and crafting polished web user experiences.`;
   }
 
-  return `Hi! I'm **Saquib Sarfaraz**, a Full Stack Developer and Computer Science Engineering student at Jamia Hamdard.\n\nI specialize in product engineering, scalable SaaS web platforms (**InCampus**, **AI Spend Audit**), real-time socket engines, and interactive web tools. Currently, I'm a Full Stack Developer Intern at **WonderKids Club**.`;
+  return `Hi! I'm **Saquib Sarfaraz**, a Full Stack Developer and Computer Science Engineering student at Jamia Hamdard.\n\nI specialize in product engineering, scalable SaaS web platforms (**InCampus**, **AI Spend Audit**), real-time socket engines, and interactive web tools. Recently, I completed a Software Developer Internship at **Confidential Government**.`;
 }

@@ -46,9 +46,9 @@ function AnimatedNumber({ value }) {
 
 export default function SelectedImpact() {
   return (
-    <section className="py-20 px-4 sm:px-6 relative bg-[#040814] overflow-hidden border-t border-slate-900/80">
+    <section className="py-20 px-4 sm:px-6 relative bg-[#080A12] overflow-hidden border-t border-[#171A25]">
       {/* Volumetric Radial Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-sky-500/10 blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/[0.02] blur-[150px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto space-y-12 relative z-10">
         {/* Section Header */}
@@ -59,11 +59,11 @@ export default function SelectedImpact() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center space-y-3"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-mono uppercase tracking-widest backdrop-blur-xl">
-            <Target className="w-4 h-4 text-sky-400" /> Measurable Engineering Outcomes
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#171A25] border border-white/15 text-[#C6CBD6] text-xs font-mono uppercase tracking-widest backdrop-blur-xl">
+            <Target className="w-4 h-4 text-[#3B82F6]" /> Measurable Engineering Outcomes
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans">
-            Selected <span className="text-sky-400">Impact</span> & Metrics
+            Selected <span className="bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">Impact</span> & Metrics
           </h2>
         </motion.div>
 
@@ -78,12 +78,14 @@ export default function SelectedImpact() {
               transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -6, scale: 1.02 }}
               data-cursor-label="METRIC"
-              className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-900/70 border border-slate-800 hover:border-sky-500/40 space-y-2 shadow-xl backdrop-blur-xl transition-all duration-300 group cursor-pointer flex flex-col justify-between"
+              className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl apple-glass-pill apple-glass-edge hover:border-[#2563EB]/40 space-y-2 shadow-xl backdrop-blur-2xl transition-all duration-300 group cursor-pointer flex flex-col justify-between relative overflow-hidden"
             >
-              <div className="space-y-1.5">
-                <div className="text-2xl sm:text-4xl font-extrabold text-white font-mono tracking-tight group-hover:text-sky-400 transition-colors flex items-center justify-between">
+              <div className="apple-specular-glare" />
+
+              <div className="space-y-1.5 relative z-10">
+                <div className="text-2xl sm:text-4xl font-extrabold text-[#3B82F6] font-mono tracking-tight group-hover:text-[#60A5FA] transition-colors flex items-center justify-between">
                   <AnimatedNumber value={item.metric} />
-                  <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                  <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#3B82F6] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
                 </div>
                 <div className="text-xs font-bold text-slate-200 font-mono leading-snug">
                   {item.label}
@@ -92,7 +94,7 @@ export default function SelectedImpact() {
                   {item.description}
                 </p>
               </div>
-              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-slate-500 pt-1.5 border-t border-slate-800/80">
+              <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-slate-400 pt-1.5 border-t border-[#222633] group-hover:text-[#93C5FD] transition-colors">
                 {item.category}
               </div>
             </motion.div>
