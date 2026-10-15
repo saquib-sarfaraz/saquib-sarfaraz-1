@@ -14,6 +14,7 @@ export default function InCampusReelsFeed({ isActiveOverlay = true }) {
   const [globalMuted, setGlobalMuted] = useState(true);
   const abortControllerRef = useRef(null);
   const isWheelThrottled = useRef(false);
+  const isProgrammaticScroll = useRef(false);
 
   // Synchronize global mute preference across reels
   const handleGlobalMutedChange = useCallback((nextMuted) => {
@@ -61,7 +62,11 @@ export default function InCampusReelsFeed({ isActiveOverlay = true }) {
     try {
       const result = await inCampusInBuzzClient.fetchNextPage({ limit: 10 });
       if (result.reels && result.reels.length > 0) {
-        setReels((prev) => [...prev, ...result.reels]);
+        setReels((prev) => {
+          const existingIds = new Set(prev.map((r) => r.id));
+          const uniqueNew = result.reels.filter((r) => !existingIds.has(r.id));
+          return [...prev, ...uniqueNew];
+        });
         setHasMore(result.hasMore);
       } else {
         setHasMore(false);
@@ -87,16 +92,26 @@ export default function InCampusReelsFeed({ isActiveOverlay = true }) {
     if (!container || index < 0 || index >= reels.length) return;
 
     const itemHeight = container.clientHeight;
+    isProgrammaticScroll.current = true;
     container.scrollTo({
       top: index * itemHeight,
       behavior: 'smooth'
     });
-  }, [reels.length]);
+    setActiveIndex(index);
+
+    if (index >= reels.length - 2 && hasMore && !isLoadingMore) {
+      loadMoreReels();
+    }
+
+    setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 450);
+  }, [reels.length, hasMore, isLoadingMore, loadMoreReels]);
 
   // Deterministic onScroll handler: accurately tracks the active reel based on scroll position
   const handleScroll = useCallback(() => {
     const container = containerRef.current;
-    if (!container || reels.length === 0) return;
+    if (!container || reels.length === 0 || isProgrammaticScroll.current) return;
 
     const scrollTop = container.scrollTop;
     const clientHeight = container.clientHeight;
@@ -129,6 +144,37 @@ export default function InCampusReelsFeed({ isActiveOverlay = true }) {
       setTimeout(() => {
         isWheelThrottled.current = false;
       }, 450);
+    }
+  }, [activeIndex, reels.length, scrollToIndex]);
+
+  // Mobile Android / iOS touch swipe gesture detection
+  const touchStartY = useRef(0);
+  const touchStartX = useRef(0);
+  const touchStartTime = useRef(0);
+
+  const handleTouchStart = useCallback((e) => {
+    if (e.touches && e.touches.length === 1) {
+      touchStartY.current = e.touches[0].clientY;
+      touchStartX.current = e.touches[0].clientX;
+      touchStartTime.current = Date.now();
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback((e) => {
+    if (isProgrammaticScroll.current) return;
+    if (!e.changedTouches || e.changedTouches.length === 0) return;
+
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    const deltaX = Math.abs(e.changedTouches[0].clientX - touchStartX.current);
+    const deltaTime = Date.now() - touchStartTime.current;
+
+    // Distinguish vertical swipe gesture
+    if (Math.abs(deltaY) > 35 && Math.abs(deltaY) > deltaX * 1.2 && deltaTime < 600) {
+      if (deltaY < 0 && activeIndex < reels.length - 1) {
+        scrollToIndex(activeIndex + 1);
+      } else if (deltaY > 0 && activeIndex > 0) {
+        scrollToIndex(activeIndex - 1);
+      }
     }
   }, [activeIndex, reels.length, scrollToIndex]);
 
@@ -195,13 +241,16 @@ export default function InCampusReelsFeed({ isActiveOverlay = true }) {
 
   // 3. Natural Scroll-Snap InBuzz Feed
   return (
-    <div className="relative w-full h-full bg-black overflow-hidden select-none">
+    <div className="relative w-full h-full bg-black overflow-hidden select-none flex flex-col">
       {/* Scrollable Snap Container */}
       <div
         ref={containerRef}
+        data-lenis-prevent="true"
         onScroll={handleScroll}
         onWheel={handleWheel}
-        className="w-full h-full overflow-y-scroll snap-y snap-mandatory touch-pan-y focus:outline-none overscroll-y-contain"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className="w-full flex-1 min-h-0 overflow-y-auto snap-y snap-mandatory touch-pan-y focus:outline-none overscroll-y-contain relative"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
@@ -210,15 +259,24 @@ export default function InCampusReelsFeed({ isActiveOverlay = true }) {
         }}
       >
         {reels.map((reel, index) => (
-          <InCampusReelCard
+          <div
             key={reel.id}
-            reel={reel}
-            index={index}
-            totalReels={reels.length}
-            isActive={isActiveOverlay && index === activeIndex}
-            globalMuted={globalMuted}
-            onGlobalMutedChange={handleGlobalMutedChange}
-          />
+            className="w-full h-full min-h-full snap-start snap-always shrink-0 relative"
+            style={{
+              scrollSnapAlign: 'start',
+              scrollSnapStop: 'always',
+              touchAction: 'pan-y'
+            }}
+          >
+            <InCampusReelCard
+              reel={reel}
+              index={index}
+              totalReels={reels.length}
+              isActive={isActiveOverlay && index === activeIndex}
+              globalMuted={globalMuted}
+              onGlobalMutedChange={handleGlobalMutedChange}
+            />
+          </div>
         ))}
 
         {/* Loading More Sentinel */}

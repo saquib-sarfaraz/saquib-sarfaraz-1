@@ -168,10 +168,15 @@ export default function InBuzzPage({ onBack }) {
 
     setActiveIndex(index);
 
+    // Prefetch upcoming reels before reaching the end
+    if (index >= reels.length - 2 && hasMore && !isLoadingMore) {
+      loadMoreReels();
+    }
+
     setTimeout(() => {
       isProgrammaticScroll.current = false;
     }, 450);
-  }, [reels.length]);
+  }, [reels.length, hasMore, isLoadingMore, loadMoreReels]);
 
   // Scroll tracking with automatic sliding-window update & prefetch
   const handleScroll = useCallback(() => {
@@ -212,6 +217,42 @@ export default function InBuzzPage({ onBack }) {
     }
   }, [activeIndex, reels.length, scrollToIndex]);
 
+  // Mobile Android / iOS touch swipe gesture detection
+  const touchStartY = useRef(0);
+  const touchStartX = useRef(0);
+  const touchStartTime = useRef(0);
+
+  const handleTouchStart = useCallback((e) => {
+    if (e.touches && e.touches.length === 1) {
+      touchStartY.current = e.touches[0].clientY;
+      touchStartX.current = e.touches[0].clientX;
+      touchStartTime.current = Date.now();
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback((e) => {
+    if (isProgrammaticScroll.current) return;
+    if (!e.changedTouches || e.changedTouches.length === 0) return;
+
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    const deltaX = Math.abs(e.changedTouches[0].clientX - touchStartX.current);
+    const deltaTime = Date.now() - touchStartTime.current;
+
+    // Distinguish vertical swipe gesture:
+    // 1. Minimum vertical displacement (> 35px)
+    // 2. Strongly vertical trajectory (|deltaY| > deltaX * 1.2)
+    // 3. Deliberate swipe duration (< 600ms)
+    if (Math.abs(deltaY) > 35 && Math.abs(deltaY) > deltaX * 1.2 && deltaTime < 600) {
+      if (deltaY < 0 && activeIndex < reels.length - 1) {
+        // Swiped UP -> advance to next reel
+        scrollToIndex(activeIndex + 1);
+      } else if (deltaY > 0 && activeIndex > 0) {
+        // Swiped DOWN -> return to previous reel
+        scrollToIndex(activeIndex - 1);
+      }
+    }
+  }, [activeIndex, reels.length, scrollToIndex]);
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -249,16 +290,6 @@ export default function InBuzzPage({ onBack }) {
       }).catch(() => {});
     }
   }, []);
-
-  // Compute Bounded 5-Record Active Window
-  // [activeIndex - 2, activeIndex - 1, activeIndex, activeIndex + 1, activeIndex + 2]
-  const windowStart = Math.max(0, activeIndex - 2);
-  const windowEnd = Math.min(reels.length - 1, activeIndex + 2);
-  const activeWindowReels = reels.slice(windowStart, windowEnd + 1);
-
-  // Height for virtual top and bottom spacers (based on 100% of container height)
-  const topSpacerPercent = windowStart * 100;
-  const bottomSpacerPercent = Math.max(0, (reels.length - 1 - windowEnd) * 100);
 
   const activeReel = reels[activeIndex];
 
@@ -477,12 +508,15 @@ export default function InBuzzPage({ onBack }) {
 
             {/* Centered Portrait Reel Cinema Card */}
             <div className="relative w-full h-full sm:h-[92vh] sm:max-h-[880px] sm:w-[440px] md:w-[480px] bg-black sm:rounded-3xl border-0 sm:border sm:border-white/15 shadow-[0_30px_90px_rgba(0,0,0,0.98)] overflow-hidden flex flex-col">
-              {/* Virtual Snap Feed Container */}
+              {/* Feed Container */}
               <div
                 ref={containerRef}
+                data-lenis-prevent="true"
                 onScroll={handleScroll}
                 onWheel={handleWheel}
-                className="w-full h-full overflow-y-scroll snap-y snap-mandatory touch-pan-y focus:outline-none overscroll-y-contain relative"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                className="w-full flex-1 min-h-0 overflow-y-auto snap-y snap-mandatory touch-pan-y focus:outline-none overscroll-y-contain relative"
                 style={{
                   scrollbarWidth: 'none',
                   msOverflowStyle: 'none',
@@ -490,24 +524,19 @@ export default function InBuzzPage({ onBack }) {
                   touchAction: 'pan-y'
                 }}
               >
-                {/* 1. Virtual Top Spacer (Evicts distant previous reels from DOM) */}
-                {topSpacerPercent > 0 && (
-                  <div
-                    aria-hidden="true"
-                    style={{ height: `${topSpacerPercent}%` }}
-                    className="w-full shrink-0 pointer-events-none"
-                  />
-                )}
-
-                {/* 2. Bounded 5-Record Active Window */}
-                {activeWindowReels.map((reel, windowOffset) => {
-                  const globalIdx = windowStart + windowOffset;
+                {/* Reels List */}
+                {reels.map((reel, globalIdx) => {
                   const isCurrentActive = globalIdx === activeIndex;
 
                   return (
                     <div
                       key={reel.id}
-                      className="w-full h-full min-h-full snap-start snap-normal shrink-0 relative"
+                      className="w-full h-full min-h-full snap-start snap-always shrink-0 relative"
+                      style={{
+                        scrollSnapAlign: 'start',
+                        scrollSnapStop: 'always',
+                        touchAction: 'pan-y'
+                      }}
                     >
                       <InCampusReelCard
                         reel={reel}
@@ -520,15 +549,6 @@ export default function InBuzzPage({ onBack }) {
                     </div>
                   );
                 })}
-
-                {/* 3. Virtual Bottom Spacer (Evicts distant next reels from DOM) */}
-                {bottomSpacerPercent > 0 && (
-                  <div
-                    aria-hidden="true"
-                    style={{ height: `${bottomSpacerPercent}%` }}
-                    className="w-full shrink-0 pointer-events-none"
-                  />
-                )}
 
                 {/* Loading More Indicator */}
                 {isLoadingMore && (

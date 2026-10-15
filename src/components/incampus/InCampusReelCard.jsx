@@ -186,7 +186,7 @@ export default function InCampusReelCard({
     <div
       data-reel-id={reel.id}
       data-reel-index={index}
-      className="relative w-full h-full min-h-full snap-start snap-normal shrink-0 flex items-center justify-center bg-black overflow-hidden select-none"
+      className="relative w-full h-full min-h-full shrink-0 flex items-center justify-center bg-black overflow-hidden select-none"
       style={{ touchAction: 'pan-y' }}
     >
       {/* 1. Actual HTML5 Video Stream */}
@@ -242,15 +242,20 @@ export default function InCampusReelCard({
         </button>
       </div>
 
-      {/* 6. Center Persistent Play Icon when Video is Paused */}
+      {/* 6. Center Persistent Play Icon when Video is Paused - Outer container non-blocking so vertical swipes pass through */}
       {isPaused && !isBuffering && !hasError && (
         <div
-          onClick={handleTogglePlay}
-          className="absolute inset-0 flex items-center justify-center z-20 pointer-events-auto cursor-pointer"
+          className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
         >
-          <div className="w-16 h-16 rounded-full bg-black/60 border border-white/25 flex items-center justify-center text-white backdrop-blur-md shadow-2xl hover:scale-105 active:scale-95 transition-transform">
+          <button
+            type="button"
+            onClick={handleTogglePlay}
+            aria-label="Play video"
+            className="w-16 h-16 rounded-full bg-black/60 border border-white/25 flex items-center justify-center text-white backdrop-blur-md shadow-2xl hover:scale-105 active:scale-95 transition-transform pointer-events-auto cursor-pointer focus:outline-none"
+            style={{ touchAction: 'pan-y' }}
+          >
             <Play className="w-7 h-7 fill-white ml-1 text-white" />
-          </div>
+          </button>
         </div>
       )}
 
