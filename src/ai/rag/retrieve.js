@@ -5,6 +5,7 @@ import skillsData from '../knowledge/skills.json' with { type: 'json' };
 import gamesData from '../knowledge/games.json' with { type: 'json' };
 import contactData from '../knowledge/contact.json' with { type: 'json' };
 import resumeData from '../knowledge/resume.json' with { type: 'json' };
+import leadershipData from '../knowledge/leadership.json' with { type: 'json' };
 
 export function retrieveKnowledge(query = '', history = []) {
   const historyText = Array.isArray(history)
@@ -22,7 +23,13 @@ export function retrieveKnowledge(query = '', history = []) {
   const expandedKeywords = [];
 
   const checkRaw = (...keywords) => {
-    const found = keywords.filter((kw) => q.includes(kw.toLowerCase()));
+    const found = keywords.filter((kw) => {
+      const lowerKw = kw.toLowerCase();
+      if (lowerKw.length <= 3) {
+        return new RegExp(`\\b${lowerKw}\\b`, 'i').test(q);
+      }
+      return q.includes(lowerKw);
+    });
     if (found.length > 0) {
       rawKeywords.push(...found);
       return true;
@@ -31,7 +38,13 @@ export function retrieveKnowledge(query = '', history = []) {
   };
 
   const checkExpanded = (...keywords) => {
-    const found = keywords.filter((kw) => fullContextText.includes(kw.toLowerCase()));
+    const found = keywords.filter((kw) => {
+      const lowerKw = kw.toLowerCase();
+      if (lowerKw.length <= 3) {
+        return new RegExp(`\\b${lowerKw}\\b`, 'i').test(fullContextText);
+      }
+      return fullContextText.includes(lowerKw);
+    });
     if (found.length > 0) {
       expandedKeywords.push(...found);
       return true;
@@ -90,6 +103,35 @@ export function retrieveKnowledge(query = '', history = []) {
         { type: 'scroll', target: 'projects', label: 'XYXO (Game Engine)' }
       ],
       clarificationMessage: `Which project's architecture would you like to explore?\n\n• **InCampus**: Private campus social network with Socket.io real-time chat & MongoDB pipelines\n• **AI Spend Audit**: Groq AI SaaS platform for subscription cost optimization\n• **XYXO**: Server-authoritative realtime multiplayer game engine`
+    };
+  }
+
+  // 🚫 2B. OUT-OF-SCOPE / GENERAL KNOWLEDGE REFUSAL CHECK
+  const generalKnowledgeQueries = [
+    'capital of', 'weather in', 'president of', 'prime minister', 'who won', 'population of',
+    'recipe for', 'how to cook', 'crypto price', 'bitcoin price', 'stock price',
+    'who is elon musk', 'who is sundar pichai', 'who is bill gates', 'who is sam altman'
+  ];
+  const isGeneralKnowledge = generalKnowledgeQueries.some((term) => q.includes(term)) &&
+    !q.includes('saquib') && !q.includes('incampus') && !q.includes('portfolio') && !q.includes('hamdard');
+
+  if (isGeneralKnowledge) {
+    return {
+      query,
+      intent: 'OutOfScope',
+      entity: 'General Knowledge',
+      card: 'Policy > Portfolio Only',
+      rawKeywords: [],
+      expandedKeywords: [],
+      confidence: 1.0,
+      outOfScope: true,
+      sources: ['Policy'],
+      retrievedSections: [],
+      actions: [
+        { type: 'scroll', target: 'about', label: 'About Saquib' },
+        { type: 'scroll', target: 'projects', label: 'View Projects' }
+      ],
+      outOfScopeMessage: "I am designed specifically to answer questions about **Saquib Sarfaraz**, his portfolio, projects, experience, skills, and background. I can't assist with general knowledge topics, but feel free to ask about his work!"
     };
   }
 
@@ -205,6 +247,18 @@ export function retrieveKnowledge(query = '', history = []) {
       retrievedSections.push({ title: cardTitle, data: experienceData });
       matchedSources.add('Experience');
       suggestedActions.push({ type: 'scroll', target: 'experience', label: 'View Experience Section' });
+    }
+  }
+
+  // 6B. LEADERSHIP MATCHING
+  if (checkRaw('leadership', 'leader', 'campus mantri', 'gfg', 'geeksforgeeks', 'co-chairperson', 'nsdc', 'nss', 'ignite', 'joint secretary', 'design secretary', 'creative lead', 'society', 'extracurricular', 'campus role')) {
+    if (!matchedSources.has('Leadership') && retrievedSections.length === 0) {
+      confidenceScore = 0.96;
+      cardTitle = 'Leadership > Campus Leadership & Initiatives';
+      entityName = 'Campus Leadership';
+      retrievedSections.push({ title: cardTitle, data: leadershipData });
+      matchedSources.add('Leadership');
+      suggestedActions.push({ type: 'scroll', target: 'leadership', label: 'View Campus Leadership' });
     }
   }
 

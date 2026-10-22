@@ -113,7 +113,11 @@ function parseGroqRetryWaitMs(errText, responseHeaders) {
 // Key Cooldown Helpers
 function isKeyOnCooldown(key) {
   const until = keyCooldownMap.get(key) || 0;
-  return Date.now() < until;
+  if (Date.now() >= until) {
+    keyCooldownMap.delete(key);
+    return false;
+  }
+  return true;
 }
 
 function setKeyCooldown(key, label, customWaitMs = null) {
@@ -160,19 +164,31 @@ function checkGreetingQuery(query) {
   const q = normalizeCacheKey(query);
 
   // Name / Identity fast path
-  if (
+  const isIdentity =
     q === 'naam' ||
-    q === 'naam?' ||
     q === 'who are you' ||
+    q === 'who are u' ||
     q === 'what is your name' ||
+    q === 'whats your name' ||
+    q === "what's your name" ||
     q === 'who is this' ||
     q === 'ur name' ||
     q === 'your name' ||
     q === 'name' ||
-    q === 'tell me your name'
-  ) {
+    q === 'tell me your name' ||
+    q === 'introduce yourself' ||
+    q === 'tell me about yourself' ||
+    q === 'tell me about saquib' ||
+    q === 'who is saquib' ||
+    q === 'who is saquib sarfaraz' ||
+    q === 'introduce saquib' ||
+    q === 'about saquib' ||
+    q.startsWith('who is saquib') ||
+    q.startsWith('introduce yourself');
+
+  if (isIdentity) {
     return {
-      message: `I'm **Saquib Sarfaraz**! A Full Stack Developer and CSE student at Jamia Hamdard. Nice to meet you! 👋`,
+      message: `I'm **Saquib Sarfaraz**! A Full Stack Developer and CSE student at Jamia Hamdard. Nice to meet you! 👋\n\nI build end-to-end web applications, scalable SaaS platforms (like **InCampus** and **AI Spend Audit**), and real-time socket engines. Recently, I completed a Software Developer Internship at **Confidential Government**.`,
       sources: ['About'],
       actions: [
         { type: 'scroll', target: 'about', label: 'About Me' },
@@ -280,6 +296,28 @@ function checkGreetingQuery(query) {
 // ⚡ STEP 2: STATIC QUESTION BYPASS (0 Token Cost)
 function checkStaticQuery(query) {
   const q = normalizeCacheKey(query);
+
+  // 0. Leadership query
+  if (
+    q.includes('leadership') ||
+    q.includes('campus mantri') ||
+    q.includes('co-chairperson') ||
+    q.includes('ignite society') ||
+    q.includes('joint secretary') ||
+    q.includes('design secretary') ||
+    q.includes('creative lead') ||
+    q.includes('nsdc') ||
+    q.includes('nss') ||
+    q.includes('student council')
+  ) {
+    return {
+      message: `Here are my verified **Campus Leadership Roles**:\n\n1. 🌟 **Co-Chairperson** — NSDC, Jamia Hamdard (Sep 2025 – Aug 2026)\n   Supported student-led skill-building initiatives, workshops, and campus community engagement.\n\n2. 💻 **Campus Mantri** — GeeksforGeeks Campus Body, Jamia Hamdard (Dec 2024 – Feb 2026)\n   Fostered coding culture and connected 200+ students with competitions, peer learning, and hackathons.\n\n3. 🤝 **Joint Secretary** — Ignite Society, JHU (Sep 2024 – Apr 2025)\n   Co-managed society operations, visual communication, and event execution across campus activities.\n\n4. 🚀 **Creative Lead** — Ignite Society, JHU (Jan – Oct 2024)\n   Led creative initiatives, visual storytelling, event branding, and promotional design.`,
+      sources: ['Leadership'],
+      actions: [
+        { type: 'scroll', target: 'leadership', label: 'View Leadership Section' }
+      ]
+    };
+  }
 
   // 1. LinkedIn query
   if (q.includes('linkedin')) {
@@ -466,7 +504,10 @@ ${contextText}`;
     return `${baseIdentity}
 
 # CASUAL MODE:
-- Warm, approachable, slightly informal tone. Keep answers light and natural.`;
+- Warm, approachable, slightly informal tone. Keep answers light and natural.
+
+# PORTFOLIO CONTEXT:
+${contextText}`;
   }
 
   return `${baseIdentity}
@@ -560,6 +601,40 @@ export default async function handler(req, res) {
       sources: ['About'],
       actions: retrievedContext.actions || [],
       message: retrievedContext.unknownMessage
+    });
+  }
+
+  // ⚡ STEP 1A2: OUT-OF-SCOPE / GENERAL KNOWLEDGE REFUSAL BYPASS (0 Token Cost)
+  if (retrievedContext?.outOfScope && retrievedContext?.outOfScopeMessage) {
+    logMetrics({
+      question: trimmedQuery,
+      intent: 'OutOfScope',
+      entity: 'Policy',
+      card: 'Bypass > Out Of Scope Guardrail',
+      rawKeywords: retrievedContext.rawKeywords || [],
+      expandedKeywords: [],
+      confidence: 1.0,
+      cacheHit: false,
+      retrievedChunks: 0,
+      historyCount: 0,
+      contextSize: 0,
+      keyUsed: 'Bypass (Out of Scope Refusal)',
+      retries: 0,
+      providerStatus: '200 OK',
+      latency: Date.now() - startTime,
+      completionTokens: 0,
+      promptTokens: 0,
+      totalTokens: 0
+    });
+    return res.status(200).json({
+      fallback: false,
+      staticMatch: true,
+      sources: ['Policy'],
+      actions: retrievedContext.actions || [
+        { type: 'scroll', target: 'about', label: 'About Saquib' },
+        { type: 'scroll', target: 'projects', label: 'View Projects' }
+      ],
+      message: retrievedContext.outOfScopeMessage
     });
   }
 
@@ -792,105 +867,116 @@ Total Payload: ${totalPromptChars} chars (~${Math.round(totalPromptChars / 4)} e
     const apiEndpoint = isGroq
       ? 'https://api.groq.com/openai/v1/chat/completions'
       : 'https://api.x.ai/v1/chat/completions';
-    const apiModel = isGroq ? 'llama-3.3-70b-versatile' : 'grok-beta';
+    const candidateModels = isGroq
+      ? ['qwen/qwen3.8-27b', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b']
+      : ['grok-beta'];
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    for (const apiModel of candidateModels) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentApiKey}`
-        },
-        body: JSON.stringify({
-          model: apiModel,
-          messages: formattedMessages,
-          temperature: temperature,
-          max_tokens: maxTokens,
-          stream: false
-        }),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (response.ok) {
-        const data = await response.json();
-        const replyText =
-          data?.choices?.[0]?.message?.content ||
-          'I apologize, but I could not generate a response right now.';
-        const latency = Date.now() - startTime;
-
-        // Clear cooldown if key succeeded
-        keyCooldownMap.delete(currentApiKey);
-
-        logMetrics({
-          question: trimmedQuery,
-          intent,
-          entity,
-          card,
-          rawKeywords,
-          expandedKeywords,
-          confidence,
-          cacheHit: false,
-          retrievedChunks: chunkCount,
-          historyCount: cleanedHistory.length,
-          contextSize: contextText.length,
-          keyUsed: keyLabel,
-          retries: 0,
-          providerStatus: `${response.status} OK`,
-          latency,
-          completionTokens: data?.usage?.completion_tokens || 0,
-          promptTokens: data?.usage?.prompt_tokens || 0,
-          totalTokens: data?.usage?.total_tokens || 0
+      try {
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentApiKey}`
+          },
+          body: JSON.stringify({
+            model: apiModel,
+            messages: formattedMessages,
+            temperature: temperature,
+            max_tokens: maxTokens,
+            stream: false
+          }),
+          signal: controller.signal
         });
 
-        // Cache successful response
-        responseCache.set(cacheKey, {
-          message: replyText,
-          sources: retrievedSources,
-          actions: retrievedContext?.actions || [],
-          timestamp: Date.now()
-        });
+        clearTimeout(timeoutId);
 
-        return res.status(200).json({
-          fallback: false,
-          sources: retrievedSources,
-          actions: retrievedContext?.actions || [],
-          message: replyText
-        });
-      }
+        if (response.ok) {
+          const data = await response.json();
+          const replyText =
+            data?.choices?.[0]?.message?.content ||
+            'I apologize, but I could not generate a response right now.';
+          const latency = Date.now() - startTime;
 
-      const errText = await response.text();
+          // Clear cooldown if key succeeded
+          keyCooldownMap.delete(currentApiKey);
 
-      // ⚡ 429 RATE LIMIT: Parse exact wait time from Groq, place on cooldown immediately, and INSTANTLY switch to next key!
-      if (response.status === 429) {
-        const parsedWaitMs = parseGroqRetryWaitMs(errText, response.headers);
-        setKeyCooldown(currentApiKey, keyLabel, parsedWaitMs);
-        console.warn(`429 on ${keyLabel}. Instantly switching to next available key...`);
-        lastError = '429 Rate Limit';
-        continue;
-      }
+          logMetrics({
+            question: trimmedQuery,
+            intent,
+            entity,
+            card,
+            rawKeywords,
+            expandedKeywords,
+            confidence,
+            cacheHit: false,
+            retrievedChunks: chunkCount,
+            historyCount: cleanedHistory.length,
+            contextSize: contextText.length,
+            keyUsed: `${keyLabel} (${apiModel})`,
+            retries: 0,
+            providerStatus: `${response.status} OK`,
+            latency,
+            completionTokens: data?.usage?.completion_tokens || 0,
+            promptTokens: data?.usage?.prompt_tokens || 0,
+            totalTokens: data?.usage?.total_tokens || 0
+          });
 
-      // Transient 5xx errors (500, 502, 503, 504): Place on short 15s cooldown and switch key
-      if (response.status >= 500) {
-        setKeyCooldown(currentApiKey, keyLabel, 15000);
-        console.warn(`Server Error ${response.status} on ${keyLabel}. Switching key...`);
+          // Cache successful response
+          responseCache.set(cacheKey, {
+            message: replyText,
+            sources: retrievedSources,
+            actions: retrievedContext?.actions || [],
+            timestamp: Date.now()
+          });
+
+          return res.status(200).json({
+            fallback: false,
+            sources: retrievedSources,
+            actions: retrievedContext?.actions || [],
+            message: replyText
+          });
+        }
+
+        const errText = await response.text();
+
+        // ⚡ 429 RATE LIMIT: Parse exact wait time from Groq, place on cooldown immediately, and break to next key!
+        if (response.status === 429) {
+          const parsedWaitMs = parseGroqRetryWaitMs(errText, response.headers);
+          setKeyCooldown(currentApiKey, keyLabel, parsedWaitMs);
+          console.warn(`429 on ${keyLabel}. Instantly switching to next available key...`);
+          lastError = '429 Rate Limit';
+          break; // Try next key
+        }
+
+        // 404 Model Not Found / Inaccessible: Try next candidate model without penalizing the key
+        if (response.status === 404) {
+          console.warn(`Model ${apiModel} not found on ${keyLabel} (404). Trying next fallback model...`);
+          continue; // Try next candidateModel
+        }
+
+        // Transient 5xx errors (500, 502, 503, 504): Place on short 15s cooldown and switch key
+        if (response.status >= 500) {
+          setKeyCooldown(currentApiKey, keyLabel, 15000);
+          console.warn(`Server Error ${response.status} on ${keyLabel}. Switching key...`);
+          lastError = `HTTP ${response.status}`;
+          break; // Try next key
+        }
+
+        // Non-retriable 4xx errors (400, 401, 403): Skip key
+        console.error(`Client Error ${response.status} on ${keyLabel}:`, errText);
         lastError = `HTTP ${response.status}`;
-        continue;
+        break; // Try next key
+      } catch (error) {
+        clearTimeout(timeoutId);
+        const isTimeout = error.name === 'AbortError';
+        console.error(`LLM Exception on ${keyLabel} (${apiModel}):`, isTimeout ? 'Timeout 15s' : error.message);
+        lastError = isTimeout ? 'Timeout' : error.message;
+        break; // Try next key
       }
-
-      // Non-retriable 4xx errors (400, 401, 403, 404): Skip key
-      console.error(`Client Error ${response.status} on ${keyLabel}:`, errText);
-      lastError = `HTTP ${response.status}`;
-    } catch (error) {
-      clearTimeout(timeoutId);
-      const isTimeout = error.name === 'AbortError';
-      console.error(`LLM Exception on ${keyLabel}:`, isTimeout ? 'Timeout 15s' : error.message);
-      setKeyCooldown(currentApiKey, keyLabel, 30000);
-      lastError = isTimeout ? 'Timeout' : error.message;
     }
   }
 
@@ -982,6 +1068,10 @@ function generateFallbackReply(query, context) {
 
   if (q.includes('confidential') || q.includes('government') || q.includes('wonderkids') || q.includes('intern') || q.includes('experience') || q.includes('work')) {
     return `Most recently, I completed a **Software Developer Internship at Confidential Government** (August 2026 – September 2026, Remote), where I contributed to software development and web-based solutions, backend functionality, administrative interfaces, and responsive user experiences.\n\nPreviously, I was a Web Developer Intern at **WonderKids Club** (June 2026 – August 2026) developing production educational platforms, and earlier at **Pizeonfly Pvt Ltd** developing full-stack modules with React.js and Node.js/Express.`;
+  }
+
+  if (q.includes('leadership') || q.includes('roles') || q.includes('campus mantri') || q.includes('co-chairperson') || q.includes('nsdc') || q.includes('nss') || q.includes('joint secretary') || q.includes('ignite')) {
+    return `Here are my verified **Campus Leadership Roles**:\n\n1. 🌟 **Co-Chairperson** — NSDC, Jamia Hamdard (Sep 2025 – Aug 2026)\n   Supported student-led skill-building initiatives, workshops, and campus community engagement.\n\n2. 💻 **Campus Mantri** — GeeksforGeeks Campus Body, Jamia Hamdard (Dec 2024 – Feb 2026)\n   Fostered coding culture and connected 200+ students with competitions, peer learning, and hackathons.\n\n3. 🤝 **Joint Secretary** — Ignite Society, JHU (Sep 2024 – Apr 2025)\n   Co-managed society operations, visual communication, and event execution across campus activities.\n\n4. 🚀 **Creative Lead** — Ignite Society, JHU (Jan – Oct 2024)\n   Led creative initiatives, visual storytelling, event branding, and promotional design.`;
   }
 
   if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {

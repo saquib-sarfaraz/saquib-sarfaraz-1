@@ -1,0 +1,70 @@
+[
+  {
+    "id": "co-chairperson-nsdc-2025",
+    "title": "Co-Chairperson, NSDC",
+    "role": "Co-Chairperson",
+    "organization": "NSDC, Jamia Hamdard",
+    "period": "September 2025 – August 2026",
+    "category": "Executive Leadership",
+    "summary": "Supported student-led skill-building initiatives, workshops, and campus community engagement across Jamia Hamdard.",
+    "highlights": [
+      "Spearheaded student-led skill development outreach and campus initiatives.",
+      "Coordinated institutional skill-building workshops, seminars, and student engagement drives."
+    ],
+    "tags": ["NSDC Jamia Hamdard", "Skill Development", "Community Leadership", "Student Initiatives"],
+    "actions": [
+      { "type": "scroll", "target": "leadership", "label": "View Leadership Section" }
+    ]
+  },
+  {
+    "id": "campus-mantri-gfg-2024",
+    "title": "Campus Mantri, GeeksforGeeks",
+    "role": "Campus Mantri",
+    "organization": "GeeksforGeeks Campus Body, Jamia Hamdard",
+    "period": "December 2024 – February 2026",
+    "category": "Developer Community Leadership",
+    "summary": "Supported developer community engagement, campus initiatives, and technical activities, connecting 200+ students with coding competitions.",
+    "highlights": [
+      "Connected 200+ university students with coding competitions and peer learning sessions.",
+      "Organized algorithm problem-solving walkthroughs and structured hackathon preparation cohorts."
+    ],
+    "tags": ["GeeksforGeeks", "Developer Community", "DSA & CP", "Campus Lead"],
+    "actions": [
+      { "type": "scroll", "target": "leadership", "label": "View Leadership Section" }
+    ]
+  },
+  {
+    "id": "joint-secretary-ignite-2024",
+    "title": "Joint Secretary, Ignite Society",
+    "role": "Joint Secretary",
+    "organization": "Ignite Society, JHU",
+    "period": "September 2024 – April 2025",
+    "category": "Executive & Operations",
+    "summary": "Co-managed society operations, visual communication, and event execution across society activities and campus cohorts.",
+    "highlights": [
+      "Co-managed society administration, event planning, and student cohort operations.",
+      "Directed visual communication, creative consistency, and promotional media across campus events."
+    ],
+    "tags": ["Ignite Society JHU", "Joint Secretary", "Operations & Administration", "Student Council"],
+    "actions": [
+      { "type": "scroll", "target": "leadership", "label": "View Leadership Section" }
+    ]
+  },
+  {
+    "id": "creative-lead-ignite-2024",
+    "title": "Creative Lead, Ignite Society",
+    "role": "Creative Lead",
+    "organization": "Ignite Society, JHU",
+    "period": "January – October 2024",
+    "category": "Creative Direction",
+    "summary": "Led creative initiatives, visual storytelling, and promotional design for university tech events and workshops.",
+    "highlights": [
+      "Led visual storytelling, event branding, and promotional collateral.",
+      "Designed digital assets and interactive campaign materials for university workshops."
+    ],
+    "tags": ["Ignite Society JHU", "Creative Direction", "Visual Storytelling", "Brand Design"],
+    "actions": [
+      { "type": "scroll", "target": "leadership", "label": "View Leadership Section" }
+    ]
+  }
+]

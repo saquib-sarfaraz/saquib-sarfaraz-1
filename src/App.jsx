@@ -17,7 +17,7 @@ const AIPage = lazy(() => import('./ai/pages/AIPage'));
 import Hero from './sections/Hero';
 import WorkspaceSection from './sections/WorkspaceSection';
 import AboutMe from './sections/AboutMe';
-import EngineeringJourney from './sections/EngineeringJourney';
+import Leadership from './sections/Leadership';
 import ArchitectureSection from './sections/ArchitectureSection';
 import CurrentlyBuilding from './sections/CurrentlyBuilding';
 import Skills from './sections/Skills';
@@ -40,6 +40,9 @@ export default function App() {
       const params = new URLSearchParams(window.location.search);
       if (params.get('boot') === 'true' || params.get('replay') === 'true') {
         return true;
+      }
+      if (window.location.pathname === '/ai' || window.location.pathname === '/inbuzz') {
+        return false;
       }
       return !sessionStorage.getItem('saquib_os_booted');
     }
@@ -306,13 +309,13 @@ export default function App() {
           <Hero />
           <WorkspaceSection />
           <AboutMe />
-          <EngineeringJourney />
+          <Experience />
+          <SelectedImpact />
+          <Leadership />
           <Projects />
           <ArchitectureSection />
           <CurrentlyBuilding />
           <Skills />
-          <Experience />
-          <SelectedImpact />
           <SocialProof />
           <Contact />
         </main>

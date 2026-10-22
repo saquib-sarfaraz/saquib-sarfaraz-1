@@ -3,9 +3,59 @@ import { profileData } from '../../content/profile';
 
 // Static answer router for client-side instant responses
 function checkStaticClientQuery(query) {
-  const q = (query || '').toLowerCase().trim();
+  const q = (query || '').toLowerCase().trim().replace(/[?.!;,]+$/, '').trim();
 
-  // 1. LinkedIn query
+  // 0. Identity fast path
+  const isIdentity =
+    q === 'who are you' ||
+    q === 'what is your name' ||
+    q === 'who is this' ||
+    q === 'ur name' ||
+    q === 'your name' ||
+    q === 'tell me your name' ||
+    q === 'introduce yourself' ||
+    q === 'tell me about yourself' ||
+    q === 'tell me about saquib' ||
+    q === 'who is saquib' ||
+    q === 'who is saquib sarfaraz' ||
+    q === 'introduce saquib' ||
+    q === 'about saquib' ||
+    q === 'naam';
+
+  if (isIdentity) {
+    return {
+      text: `I'm **Saquib Sarfaraz**! A Full Stack Developer and CSE student at Jamia Hamdard. Nice to meet you! 👋\n\nI build end-to-end web applications, scalable SaaS platforms (like **InCampus** and **AI Spend Audit**), and real-time socket engines. Recently, I completed a Software Developer Internship at **Confidential Government**.`,
+      sources: ['About'],
+      actions: [
+        { type: 'scroll', target: 'about', label: 'About Me' },
+        { type: 'scroll', target: 'projects', label: 'View Projects' }
+      ]
+    };
+  }
+
+  // 1. Leadership query
+  if (
+    q.includes('leadership') ||
+    q.includes('campus mantri') ||
+    q.includes('co-chairperson') ||
+    q.includes('ignite society') ||
+    q.includes('joint secretary') ||
+    q.includes('design secretary') ||
+    q.includes('creative lead') ||
+    q.includes('nsdc') ||
+    q.includes('nss') ||
+    q.includes('student council')
+  ) {
+    return {
+      text: `Here are my verified **Campus Leadership Roles**:\n\n1. 🌟 **Co-Chairperson** — NSDC, Jamia Hamdard (Sep 2025 – Aug 2026)\n   Supported student-led skill-building initiatives, workshops, and campus community engagement.\n\n2. 💻 **Campus Mantri** — GeeksforGeeks Campus Body, Jamia Hamdard (Dec 2024 – Feb 2026)\n   Fostered coding culture and connected 200+ students with competitions, peer learning, and hackathons.\n\n3. 🤝 **Joint Secretary** — Ignite Society, JHU (Sep 2024 – Apr 2025)\n   Co-managed society operations, visual communication, and event execution across campus activities.\n\n4. 🚀 **Creative Lead** — Ignite Society, JHU (Jan – Oct 2024)\n   Led creative initiatives, visual storytelling, event branding, and promotional design.`,
+      sources: ['Leadership'],
+      actions: [
+        { type: 'scroll', target: 'leadership', label: 'View Leadership Section' }
+      ]
+    };
+  }
+
+  // 2. LinkedIn query
   if (q.includes('linkedin')) {
     return {
       text: `You can connect with Saquib on **LinkedIn**:\n\n💼 [LinkedIn Profile](${profileData.socials.linkedin})\n\nFeel free to send a connection request or message!`,
@@ -17,7 +67,7 @@ function checkStaticClientQuery(query) {
     };
   }
 
-  // 2. GitHub query
+  // 3. GitHub query
   if (q.includes('github') || q.includes('repo') || q.includes('repositories')) {
     return {
       text: `Explore Saquib's open-source projects, repositories, and active code commits on **GitHub**:\n\n💻 [GitHub Profile](${profileData.socials.github})`,
@@ -29,7 +79,7 @@ function checkStaticClientQuery(query) {
     };
   }
 
-  // 3. Instagram query
+  // 4. Instagram query
   if (q.includes('instagram') || q.includes('insta')) {
     return {
       text: `Follow Saquib on **Instagram**:\n\n📷 [Instagram Profile](${profileData.socials.instagram})`,
@@ -40,7 +90,7 @@ function checkStaticClientQuery(query) {
     };
   }
 
-  // 4. Contact / How to reach query
+  // 5. Contact / How to reach query
   if (q.includes('location') || q.includes('where do you live') || q.includes('where are you') || q.includes('riyadh') || q.includes('contact') || q.includes('reach') || q.includes('touch') || q.includes('email') || q.includes('mail') || q.includes('phone') || q.includes('social')) {
     return {
       text: `Here is how you can directly contact and connect with **Saquib Sarfaraz**:\n\n📧 **Email**: [${profileData.socials.email}](mailto:${profileData.socials.email})\n💼 **LinkedIn**: [linkedin.com/in/saquib-sarfaraz](https://www.linkedin.com/in/saquib-sarfaraz-1691b9292/)\n💻 **GitHub**: [github.com/saquib-sarfaraz](https://github.com/saquib-sarfaraz)\n📷 **Instagram**: [instagram.com/saquib.sarfaraz](https://www.instagram.com/saquib.sarfaraz?igsh=MTB0ZWdlbWZnMTQ1dA==)\n📍 **Work Preference**: ${profileData.location || 'Open to Remote / Relocation'}`,
@@ -54,7 +104,7 @@ function checkStaticClientQuery(query) {
     };
   }
 
-  // 5. Resume / CV query
+  // 6. Resume / CV query
   if (q.includes('resume') || q.includes('cv') || q.includes('download resume')) {
     return {
       text: `View and download Saquib's official resume PDF:\n\n📄 [Download Resume PDF](${profileData.resumeUrl})\n\nIt details his education at Jamia Hamdard, Software Developer Internship at Confidential Government, WonderKids Club internship, full-stack technologies, and production SaaS projects.`,
@@ -66,7 +116,7 @@ function checkStaticClientQuery(query) {
     };
   }
 
-  // 6. Projects location query
+  // 7. Projects location query
   if (q.includes('where can i see your projects') || q.includes('see your projects') || q.includes('show projects')) {
     return {
       text: `You can explore all of Saquib's live projects directly on this portfolio:\n\n🚀 **InCampus**: Flagship University Social SaaS live at [incampus.online](https://incampus.online)\n💡 **AI Spend Audit**: Groq AI SaaS subscription optimizer live at [ai-audit-lilac.vercel.app](https://ai-audit-lilac.vercel.app)\n🎮 **XYXO Game**: Realtime multiplayer game in the Play Zone`,
@@ -96,6 +146,37 @@ export async function sendChatMessage({ messages, query }) {
 
   // 2. Local RAG Retrieval with multi-turn conversation history
   const retrievedContext = retrieveKnowledge(query, messages);
+
+  // ⚡ 2A. Instant Guardrails (Out of Scope refusal, Unknown Person, Ambiguous Project)
+  if (retrievedContext?.outOfScope && retrievedContext?.outOfScopeMessage) {
+    return {
+      text: retrievedContext.outOfScopeMessage,
+      sources: ['Policy'],
+      actions: retrievedContext.actions || [
+        { type: 'scroll', target: 'about', label: 'About Saquib' },
+        { type: 'scroll', target: 'projects', label: 'View Projects' }
+      ],
+      fallback: false
+    };
+  }
+
+  if (retrievedContext?.unknownPerson && retrievedContext?.unknownMessage) {
+    return {
+      text: retrievedContext.unknownMessage,
+      sources: ['About'],
+      actions: retrievedContext.actions || [],
+      fallback: false
+    };
+  }
+
+  if (retrievedContext?.needsClarification && retrievedContext?.clarificationMessage) {
+    return {
+      text: retrievedContext.clarificationMessage,
+      sources: ['Projects'],
+      actions: retrievedContext.actions || [],
+      fallback: false
+    };
+  }
 
   try {
     const response = await fetch('/api/chat', {
@@ -158,6 +239,10 @@ function generateLocalFallbackText(query, retrievedContext) {
 
   if (q.includes('confidential') || q.includes('government') || q.includes('wonderkids') || q.includes('intern') || q.includes('experience') || q.includes('work')) {
     return `Most recently, I completed a **Software Developer Internship at Confidential Government** (August 2026 – September 2026, Remote), where I contributed to software development and web-based solutions, backend functionality, administrative interfaces, and responsive user experiences.\n\nPreviously, I worked as a Full Stack Developer Intern at **WonderKids Club** (June 2026 – August 2026) building production educational web applications and simulation modules, and as a Web Developer Intern at **Pizeonfly Pvt Ltd** developing React/Node.js production modules.`;
+  }
+
+  if (q.includes('leadership') || q.includes('roles') || q.includes('campus mantri') || q.includes('co-chairperson') || q.includes('nsdc') || q.includes('nss') || q.includes('joint secretary') || q.includes('ignite')) {
+    return `Here are my verified **Campus Leadership Roles**:\n\n1. 🌟 **Co-Chairperson** — NSDC, Jamia Hamdard (Sep 2025 – Aug 2026)\n   Supported student-led skill-building initiatives, workshops, and campus community engagement.\n\n2. 💻 **Campus Mantri** — GeeksforGeeks Campus Body, Jamia Hamdard (Dec 2024 – Feb 2026)\n   Fostered coding culture and connected 200+ students with competitions, peer learning, and hackathons.\n\n3. 🤝 **Joint Secretary** — Ignite Society, JHU (Sep 2024 – Apr 2025)\n   Co-managed society operations, visual communication, and event execution across campus activities.\n\n4. 🚀 **Creative Lead** — Ignite Society, JHU (Jan – Oct 2024)\n   Led creative initiatives, visual storytelling, event branding, and promotional design.`;
   }
 
   if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {

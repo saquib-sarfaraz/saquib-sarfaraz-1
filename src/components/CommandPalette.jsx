@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, FolderGit2, Briefcase, User, Mail, FileText, ExternalLink, Gamepad2, X, Check, RotateCcw } from 'lucide-react';
+import { Search, FolderGit2, Briefcase, User, Mail, FileText, ExternalLink, Gamepad2, X, Check, RotateCcw, Award } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { profileData } from '../content/profile';
 
@@ -88,6 +88,16 @@ export default function CommandPalette({ isOpen, onClose, onOpenAISearch, onRepl
       icon: Briefcase,
       perform: () => {
         scrollToElement('experience');
+        onClose();
+      }
+    },
+    {
+      id: 'leadership',
+      label: 'Campus Leadership & Roles',
+      category: 'Navigation',
+      icon: Award,
+      perform: () => {
+        scrollToElement('leadership');
         onClose();
       }
     },

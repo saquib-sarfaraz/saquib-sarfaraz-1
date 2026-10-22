@@ -14,7 +14,7 @@ export default function Navbar({ onOpenCommandPalette, onOpenPlayZone, onOpenAIS
   const menuRef = useRef(null);
 
   useEffect(() => {
-    const sections = ['workspace', 'about', 'journey', 'projects', 'skills', 'experience', 'contact'];
+    const sections = ['workspace', 'about', 'experience', 'leadership', 'projects', 'skills', 'contact'];
     let lastY = window.scrollY;
 
     const handleScroll = () => {
@@ -50,10 +50,10 @@ export default function Navbar({ onOpenCommandPalette, onOpenPlayZone, onOpenAIS
   const navLinks = [
     { id: 'workspace', label: 'Workspace' },
     { id: 'about', label: 'About' },
-    { id: 'journey', label: 'Journey' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'leadership', label: 'Leadership' },
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
-    { id: 'experience', label: 'Experience' },
     { id: 'playzone', label: '🎮 Play Zone', isModal: true },
     { id: 'contact', label: 'Contact' },
   ];
