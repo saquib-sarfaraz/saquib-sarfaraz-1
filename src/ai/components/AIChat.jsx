@@ -59,8 +59,12 @@ export default function AIChat({ messages = [], isThinking = false, onTriggerAct
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-3 text-left pt-2"
         >
-          <div className="w-8 h-8 rounded-full bg-[#171A25] border border-[#414655] flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-md">
-            <Bot className="w-4 h-4 animate-bounce text-white" />
+          <div className="w-8 h-8 rounded-full bg-[#171A25] border border-cyan-500/30 flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-md overflow-hidden p-0.5">
+            <img
+              src="/assets/ai/ai-logo.png"
+              alt="AI Core"
+              className="w-full h-full object-cover rounded-full animate-pulse"
+            />
           </div>
 
           <div className="px-4 py-3 rounded-2xl bg-[#171A25] border border-[#414655] text-[#C6CBD6] font-mono text-xs flex items-center gap-2 shadow-lg">

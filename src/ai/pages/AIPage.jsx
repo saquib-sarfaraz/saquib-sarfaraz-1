@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Send, ArrowLeft, Search, RefreshCw, Terminal, Layers } from 'lucide-react';
 import AIChat from '../components/AIChat';
 import AISuggestions from '../components/AISuggestions';
+import AIAnimatedEmblem from '../components/AIAnimatedEmblem';
 import { sendChatMessage } from '../services/chatService';
+import { profileData } from '../../content/profile';
 
 const INITIAL_SUGGESTIONS = [
   'Tell me about yourself',
@@ -182,47 +184,57 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
       <div className="absolute top-1/6 left-1/4 w-[600px] h-[600px] rounded-full bg-white/[0.03] blur-[180px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-white/[0.02] blur-[180px] pointer-events-none" />
 
-      {/* TOP GOOGLE AI MODE NAVBAR HEADER */}
-      <header className="relative z-10 p-4 sm:p-6 border-b border-[#414655] bg-[#10131D]/90 backdrop-blur-2xl flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
+      {/* AI SEARCH WORKSPACE NAVBAR HEADER */}
+      <header className="relative z-10 px-3 py-2.5 sm:px-6 sm:py-4 border-b border-[#414655] bg-[#10131D]/90 backdrop-blur-2xl flex items-center justify-between gap-2 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <button
             onClick={onClose}
-            className="p-2 sm:px-3 sm:py-1.5 rounded-full bg-[#171A25] border border-[#414655] hover:border-[#747B8B] text-[#C6CBD6] hover:text-white transition-all text-xs font-mono flex items-center gap-1.5 cursor-pointer shadow-md"
+            className="p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-[#171A25] border border-[#414655] hover:border-[#747B8B] text-[#C6CBD6] hover:text-white transition-all text-xs font-mono flex items-center gap-1.5 cursor-pointer shadow-md shrink-0"
+            title="Return to Saquib OS"
+            aria-label="Return to Saquib OS"
           >
             <ArrowLeft className="w-4 h-4 text-white" />
             <span className="hidden sm:inline">Return to Saquib OS</span>
           </button>
 
-          <div className="h-5 w-[1px] bg-[#414655] hidden sm:block" />
+          <div className="h-5 w-[1px] bg-[#414655] hidden sm:block shrink-0" />
 
-          <div className="flex items-center gap-2.5">
-            <img
-              src="/ai-search-logo.png"
-              alt="Saquib OS AI Search"
-              className="w-7 h-7 rounded-lg object-cover shadow-md border border-[#414655]"
-            />
-            <div>
-              <h1 className="font-extrabold text-sm sm:text-base text-white tracking-tight">
-                AI Search
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl overflow-hidden border border-cyan-500/30 shadow-md bg-[#080A12] p-0.5 flex items-center justify-center shrink-0">
+              <img
+                src="/assets/ai/ai-logo.png"
+                alt="Saquib AI Neural Core"
+                className="w-full h-full rounded-lg object-cover"
+              />
+            </div>
+            <div className="min-w-0">
+              <h1 className="font-extrabold text-sm sm:text-base text-white tracking-tight flex items-center gap-1.5 whitespace-nowrap">
+                <span>AI Search</span>
+                {/* Version badge: hidden on mobile, visible on desktop with correct OS version */}
+                <span className="hidden sm:inline-flex text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  {profileData.osVersion}
+                </span>
               </h1>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {messages.length > 0 && (
             <button
               onClick={handleClearHistory}
-              className="p-2 rounded-full bg-[#171A25] border border-[#414655] text-[#949BAA] hover:text-white transition-colors"
+              className="p-1.5 sm:p-2 rounded-full bg-[#171A25] border border-[#414655] text-[#949BAA] hover:text-white transition-colors shrink-0"
               title="Clear Conversation"
+              aria-label="Clear Conversation"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           )}
 
-          <div className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#F5F6FA] text-[10px] font-mono font-bold flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            <span>KNOWLEDGE BASE READY</span>
+          {/* Compact status pill: 9px font on mobile, 10px on desktop */}
+          <div className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-200 text-[9px] sm:text-[10px] font-mono font-bold flex items-center gap-1 sm:gap-1.5 shadow-sm whitespace-nowrap shrink-0">
+            <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-cyan-400 animate-pulse shrink-0" />
+            <span>NEURAL MODEL READY</span>
           </div>
         </div>
       </header>
@@ -239,22 +251,18 @@ export default function AIPage({ onClose, onTriggerOSAction }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center py-12 space-y-6 max-w-xl mx-auto"
+            className="text-center py-6 sm:py-10 space-y-6 max-w-xl mx-auto"
           >
-            <div className="relative w-20 h-20 mx-auto">
-              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-white/30 via-[#C6CBD6]/20 to-[#747B8B]/20 opacity-80 blur-xl animate-pulse" />
-              <img
-                src="/ai-search-logo.png"
-                alt="AI Search Logo"
-                className="relative w-20 h-20 rounded-3xl object-cover border border-[#414655] shadow-2xl shadow-white/5 mx-auto"
-              />
+            {/* Focal Animated AI Video Emblem */}
+            <div className="py-2">
+              <AIAnimatedEmblem />
             </div>
 
             <div className="space-y-2">
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                AI <span className="bg-gradient-to-r from-white via-[#C6CBD6] to-[#747B8B] bg-clip-text text-transparent">Search</span>
+                AI <span className="bg-gradient-to-r from-cyan-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">Search</span>
               </h2>
-              <p className="text-[#949BAA] text-xs sm:text-sm font-mono leading-relaxed">
+              <p className="text-[#949BAA] text-xs sm:text-sm font-mono leading-relaxed max-w-md mx-auto">
                 Ask anything about my projects, experience, skills, achievements, and engineering journey.
               </p>
             </div>

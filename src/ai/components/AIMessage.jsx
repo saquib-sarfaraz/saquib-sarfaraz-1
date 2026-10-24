@@ -91,10 +91,18 @@ export default function AIMessage({ message, onTriggerAction }) {
         className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 shadow-md ${
           isUser
             ? 'bg-white text-black font-mono shadow-sm'
-            : 'bg-[#171A25] border border-[#414655] text-white shadow-sm'
+            : 'bg-[#171A25] border border-cyan-500/30 text-white shadow-sm overflow-hidden p-0.5'
         }`}
       >
-        {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+        {isUser ? (
+          <User className="w-4 h-4" />
+        ) : (
+          <img
+            src="/assets/ai/ai-logo.png"
+            alt="AI Core"
+            className="w-full h-full object-cover rounded-full"
+          />
+        )}
       </div>
 
       {/* Message Bubble Card */}

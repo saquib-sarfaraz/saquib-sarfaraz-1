@@ -312,7 +312,7 @@ export default function PlayZoneModal({ isOpen, onClose }) {
                                 className="flex-1 py-2.5 rounded-xl apple-glass-btn !bg-white/95 !text-black hover:!bg-white font-extrabold text-xs transition-all flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
                               >
                                 <Play className="w-3.5 h-3.5 fill-current" />
-                                <span>▶ Play</span>
+                                <span>Play</span>
                               </button>
 
                               <button
